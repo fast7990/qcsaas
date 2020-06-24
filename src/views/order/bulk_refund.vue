@@ -13,7 +13,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "order",
+  name: "bulk_refund",
   computed: {
     ...mapGetters(["name"])
   }

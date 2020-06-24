@@ -6,7 +6,8 @@ const state = {
     withoutAnimation: false
   },
   showRightSidebar: 'hideright',
-  device: 'desktop'
+  device: 'desktop',
+  isOpenSideBar: false
 }
 
 const mutations = {
@@ -29,7 +30,10 @@ const mutations = {
   },
   TOGGLE_SIDEBAR_TIGHT: (state, showRightSidebar) => {
     state.showRightSidebar = showRightSidebar
-  }
+  },
+  TOGGLE_ISOPEN_SIDEBAR: (state, isOpenSideBar) => {
+    state.isOpenSideBar = isOpenSideBar
+  },
 }
 
 const actions = {
@@ -44,6 +48,9 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  toggleIsOpenSideBar({ commit }, isOpenSideBar) {
+    commit('TOGGLE_ISOPEN_SIDEBAR', isOpenSideBar)
   }
 }
 

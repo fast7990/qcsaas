@@ -54,6 +54,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/basic',
+    name: 'home',
     children: [{
       path: 'basic',
       name: 'basic',
@@ -81,12 +82,29 @@ export const constantRoutes = [
   {
     path: '/product',
     component: Layout,
-    redirect: '/product',
+    redirect: '/product/product',
+    name: 'productbox',
+    meta: { title: '商品' },
     children: [{
       path: 'product',
       name: 'product',
       component: () => import('@/views/product/index'),
-      meta: { title: '商品' }
+      meta: { title: '商品管理' }
+    }, {
+      path: 'import',
+      name: 'import',
+      component: () => import('@/views/product/import'),
+      meta: { title: '批量导入' }
+    }, {
+      path: 'classify',
+      name: 'classify',
+      component: () => import('@/views/product/classify'),
+      meta: { title: '商品分类' }
+    }, {
+      path: 'label',
+      name: 'label',
+      component: () => import('@/views/product/label'),
+      meta: { title: '商品标签' }
     }]
   },
   /**
@@ -96,11 +114,32 @@ export const constantRoutes = [
     path: '/order',
     component: Layout,
     redirect: '/order',
+    meta: { title: '订单' },
     children: [{
       path: 'order',
       name: 'order',
       component: () => import('@/views/order/index'),
-      meta: { title: '订单' }
+      meta: { title: '订单管理' }
+    }, {
+      path: 'send_product',
+      name: 'send_product',
+      component: () => import('@/views/order/send_product'),
+      meta: { title: '批量发货' }
+    }, {
+      path: 'refund_manage',
+      name: 'refund_manage',
+      component: () => import('@/views/order/refund_manage'),
+      meta: { title: '退款管理' }
+    }, {
+      path: 'bulk_refund',
+      name: 'bulk_refund',
+      component: () => import('@/views/order/bulk_refund'),
+      meta: { title: '批量退款' }
+    }, {
+      path: 'comment',
+      name: 'comment',
+      component: () => import('@/views/order/comment'),
+      meta: { title: '评论管理' }
     }]
   },
   /**

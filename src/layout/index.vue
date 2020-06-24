@@ -1,5 +1,5 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
+  <div :class="isOpenSideBar?'isopen':''" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div class="main-container" :class="showRightSidebar">
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from "./components";
-import ResizeMixin from "./mixin/ResizeHandler";
+import { Navbar, Sidebar, AppMain } from './components';
+import ResizeMixin from './mixin/ResizeHandler';
 
 export default {
   name: "Layout",
@@ -24,6 +24,9 @@ export default {
   },
   mixins: [ResizeMixin],
   computed: {
+    isOpenSideBar() {
+      return this.$store.state.app.isOpenSideBar;
+    },
     sidebar() {
       return this.$store.state.app.sidebar;
     },

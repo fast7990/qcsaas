@@ -3,7 +3,7 @@
     <template
       v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
     >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)" class="links">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
           :class="{'submenu-title-noDropdown':!isNest}"
@@ -16,7 +16,13 @@
       </app-link>
     </template>
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+    <el-submenu
+      v-else
+      ref="subMenu"
+      :index="resolvePath(item.path)"
+      popper-append-to-body
+      class="sub-menu-list"
+    >
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
@@ -90,7 +96,7 @@ export default {
       return false;
     },
     toggleSideBarRight() {
-      this.$store.dispatch('app/toggleSideBarRight')
+      this.$store.dispatch("app/toggleSideBarRight");
     },
     resolvePath(routePath) {
       if (isExternal(routePath)) {

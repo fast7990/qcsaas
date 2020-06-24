@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-24 16:09:50
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-06-24 17:26:36
+ * @LastEditTime: 2020-06-24 17:32:13
  * @Description: 
 --> 
 <template>
@@ -13,7 +13,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "order",
+  name: "refund_manage",
   computed: {
     ...mapGetters(["name"])
   }
