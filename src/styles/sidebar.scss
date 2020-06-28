@@ -37,6 +37,17 @@
     z-index         : 1001;
     overflow        : hidden;
 
+    #app .sidebar-container {
+      .scrollbar-wrapper {
+        .el-scrollbar__view {
+          .el-menu {
+            height: 100vh;
+          }
+        }
+      }
+    }
+
+
     // reset element-ui css
     .horizontal-collapse-transition {
       transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
@@ -46,7 +57,7 @@
       overflow-x: hidden !important;
 
       .el-menu {
-        background: #ffffff !important;
+        height: 100vh;
       }
     }
 

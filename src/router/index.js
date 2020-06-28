@@ -148,12 +148,38 @@ export const constantRoutes = [
   {
     path: '/market',
     component: Layout,
-    redirect: '/market',
+    redirect: '/market/seckill',
+    meta: { title: '营销' },
     children: [{
-      path: 'market',
-      name: 'market',
-      component: () => import('@/views/market/index'),
-      meta: { title: '营销' }
+      path: 'seckill',
+      name: 'seckill',
+      component: () => import('@/views/market/seckill'),
+      meta: { title: '限时秒杀' }
+    }, {
+      path: 'group',
+      name: 'group',
+      component: () => import('@/views/market/group'),
+      meta: { title: '多人拼团' }
+    }, {
+      path: 'coupon',
+      name: 'coupon',
+      component: () => import('@/views/market/coupon'),
+      meta: { title: '优惠券' }
+    }, {
+      path: 'bargaining',
+      name: 'bargaining',
+      component: () => import('@/views/market/bargaining'),
+      meta: { title: '好友砍价' }
+    }, {
+      path: 'rebate',
+      name: 'rebate',
+      component: () => import('@/views/market/rebate'),
+      meta: { title: '满减满折' }
+    }, {
+      path: 'free_shipping',
+      name: 'free_shipping',
+      component: () => import('@/views/market/free_shipping'),
+      meta: { title: '满包邮' }
     }]
   },
   /**
@@ -163,11 +189,37 @@ export const constantRoutes = [
     path: '/user',
     component: Layout,
     redirect: '/user',
+    meta: { title: '客户' },
     children: [{
       path: 'user',
       name: 'user',
       component: () => import('@/views/user/index'),
-      meta: { title: '客户' }
+      meta: { title: '客户管理' }
+    }, {
+      path: 'customer_label',
+      name: 'customer_label',
+      component: () => import('@/views/user/customer_label'),
+      meta: { title: '客户标签' }
+    }, {
+      path: 'blacklist',
+      name: 'blacklist',
+      component: () => import('@/views/user/blacklist'),
+      meta: { title: '黑名单' }
+    }, {
+      path: 'member',
+      name: 'member',
+      component: () => import('@/views/user/member'),
+      meta: { title: '会员管理' }
+    }, {
+      path: 'integral',
+      name: 'integral',
+      component: () => import('@/views/user/integral'),
+      meta: { title: '积分设置' }
+    }, {
+      path: 'stored_value',
+      name: 'stored_value',
+      component: () => import('@/views/user/stored_value'),
+      meta: { title: '储值设置' }
     }]
   },
   /**
@@ -177,11 +229,27 @@ export const constantRoutes = [
     path: '/data',
     component: Layout,
     redirect: '/data',
+    meta: { title: '数据' },
     children: [{
       path: 'data',
       name: 'data',
       component: () => import('@/views/data/index'),
-      meta: { title: '数据' }
+      meta: { title: '数据概况' }
+    }, {
+      path: 'passenger_flow',
+      name: 'passenger_flow',
+      component: () => import('@/views/data/passenger_flow'),
+      meta: { title: '客流数据' }
+    }, {
+      path: 'sell',
+      name: 'sell',
+      component: () => import('@/views/data/sell'),
+      meta: { title: '销售数据' }
+    }, {
+      path: 'product',
+      name: 'product',
+      component: () => import('@/views/data/product'),
+      meta: { title: '商品数据' }
     }]
   },
   /**
@@ -191,11 +259,42 @@ export const constantRoutes = [
     path: '/capital',
     component: Layout,
     redirect: '/capital',
+    meta: { title: '资金' },
     children: [{
       path: 'capital',
       name: 'capital',
-      component: () => import('@/views/capital/index'),
-      meta: { title: '资金' }
+      component: () => import('@/views/capital/acconut'),
+      meta: { title: '资金概况' }
+    }, {
+      path: 'bill_statistics',
+      name: 'bill_statistics',
+      component: () => import('@/views/capital/bill_statistics'),
+      meta: { title: '账单统计' }
+    }, {
+      path: 'transaction_detail',
+      name: 'transaction_detail',
+      component: () => import('@/views/capital/transaction_detail'),
+      meta: { title: '交易明细' }
+    }, {
+      path: 'refund_detail',
+      name: 'refund_detail',
+      component: () => import('@/views/capital/refund_detail'),
+      meta: { title: '退款明细' }
+    }, {
+      path: 'stored_value_detail',
+      name: 'stored_value_detail',
+      component: () => import('@/views/capital/stored_value_detail'),
+      meta: { title: '储值明细' }
+    }, {
+      path: 'integral_detail',
+      name: 'integral_detail',
+      component: () => import('@/views/capital/integral_detail'),
+      meta: { title: '积分明细' }
+    }, {
+      path: 'application',
+      name: 'application',
+      component: () => import('@/views/capital/application'),
+      meta: { title: '功能应用' }
     }]
   },
   /**
@@ -208,7 +307,7 @@ export const constantRoutes = [
     children: [{
       path: 'setting',
       name: 'setting',
-      component: () => import('@/views/setting/index'),
+      component: () => import('@/views/setting/stores'),
       meta: { title: '设置' }
     }]
   },
@@ -247,7 +346,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/form',
     component: Layout,
