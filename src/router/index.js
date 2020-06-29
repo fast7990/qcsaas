@@ -55,6 +55,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/basic',
     name: 'home',
+    meta: { title: '概况' },
     children: [{
       path: 'basic',
       name: 'basic',
