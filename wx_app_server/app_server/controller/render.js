@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-28 17:17:49
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-06-28 19:27:27
+ * @LastEditTime: 2020-06-29 10:41:37
  * @Description: 
  */
 const koa2Req = require('koa2-request')
@@ -17,8 +17,8 @@ class AppRenderController {
             // const result = await koa2Req({
             //     url: url
             // });
-            console.log(JSON.stringify(ctx.query));
             
+            console.log(JSON.stringify(ctx.query));
             ctx.body = {
                 message: '成功',
                 success: true,
