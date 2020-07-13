@@ -1,0 +1,145 @@
+.my-swipe .van-swipe-item {
+    color           : #fff;
+    font-size       : 20px;
+    line-height     : 150px;
+    text-align      : center;
+    background-color: #39a9ed;
+}
+
+.dashboard {
+    &-container {
+        height          : calc(100vh - 50px);
+        background-color: $bg-color-base;
+    }
+}
+
+.components-list {
+    width           : 300px;
+    min-width       : 300px;
+    height          : 100%;
+    background-color: #fff;
+    overflow-y      : auto;
+
+    .components-item {
+        display     : flex;
+        flex-wrap   : wrap;
+        list-style  : none;
+        padding-left: 0;
+        border-top  : 1px solid $border-color-base;
+        margin      : 0;
+
+        li {
+            width     : 33.33333%;
+            min-width : 33.33333%;
+            text-align: center;
+            padding   : 8px 0;
+            border    : 1px solid $border-color-base;
+            cursor    : pointer;
+
+            &:nth-child(1n + 1) {
+                border-left-color: #fff;
+                border-top-color : #fff;
+            }
+
+            &:nth-child(3n) {
+                border-right-color: #fff;
+            }
+
+            &:hover {
+                span {
+                    color: $primary-color;
+                }
+            }
+        }
+
+        img {
+            width: 42px;
+        }
+
+        span {
+            display: block;
+        }
+    }
+}
+
+.template-preview {
+    position: relative;
+
+    .template-box {
+        width           : 375px;
+        height          : 667px;
+        background-color: $bg-color-base;
+        box-shadow      : $box-shadow-base;
+    }
+
+    .template-header {
+        display         : flex;
+        align-items     : center;
+        justify-content : space-between;
+        height          : 45px;
+        padding         : 0 15px;
+        color           : #fff;
+        text-align      : center;
+        font-size       : 16px;
+        font-weight     : 500;
+        background-color: $bg-color-dark;
+
+        span,
+        img {
+            width: 70px;
+        }
+    }
+
+    // 模板主体
+    .template-body {
+        position: relative;
+    }
+
+    .component-item {
+        height    : 622px;
+        overflow  : hidden;
+        overflow-y: scroll;
+    }
+
+    // 悬浮位置调整工具
+    .cpt_tools {
+        position: absolute;
+        top     : 0;
+        left    : 0;
+        border  : 1px solid #000000;
+        z-index : 2;
+
+        .bar {
+            position        : absolute;
+            width           : 24px;
+            background-color: #000000;
+            color           : #ffffff;
+            right           : -24px;
+            top             : 0;
+
+            div {
+                padding: 5px 0;
+            }
+        }
+    }
+}
+
+.components-setting {
+    width           : 400px;
+    min-width       : 400px;
+    height          : 100%;
+    padding         : 20px;
+    background-color: #fff;
+    overflow-y      : auto;
+}
+
+.components-list {
+    .el-collapse-item__header {
+        padding: 0 15px;
+    }
+
+    .el-collapse-item__content {
+        padding-bottom: 1px;
+        color         : inherit;
+    }
+}

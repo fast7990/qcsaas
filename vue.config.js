@@ -48,6 +48,14 @@ module.exports = {
       }
     }
   },
+  css: {
+    // 全局引用css
+    loaderOptions: {
+      scss: {
+        prependData: `@import "@/styles/var.scss";` // 全局注册样式变量
+      }
+    }
+  },
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     // config.plugins.delete('preload')
@@ -90,7 +98,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

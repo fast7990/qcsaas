@@ -1,0 +1,193 @@
+.fixIphonex {
+    margin-bottom   : var(--safe-bottom) !important;
+    background-color: #F8F8F8;
+}
+
+.header-false-membership {
+    height: 290rpx;
+}
+
+.header-bg {
+    position         : absolute;
+    z-index          : -1;
+    width            : 100%;
+    height           : 100%;
+    top              : 0;
+    left             : 0;
+    background-size  : 100% auto;
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-clip  : border-box;
+}
+
+.member-index {
+    height        : 100%;
+    width         : 100%;
+    min-height    : 94vh;
+    position      : relative;
+    padding-bottom: 194rpx;
+}
+
+.user-info-header {
+    color   : #fff;
+    position: relative;
+}
+
+.member-pic {
+    width      : 130rpx;
+    height     : 130rpx;
+    background : #fff;
+    margin-left: .4rem;
+    position   : relative;
+}
+
+.member-photo {
+    width             : 1.28rem;
+    height            : 1.28rem;
+    position          : absolute;
+    top               : 0;
+    bottom            : 0;
+    right             : 0;
+    left              : 0;
+    margin            : auto;
+    -webkit-box-shadow: 0 0.05333rem 0.10667rem 0 rgba(0, 0, 0, .1);
+    box-shadow        : 0 0.05333rem 0.10667rem 0 rgba(0, 0, 0, .1);
+}
+
+.member-nick-name {
+    font-size  : .4rem;
+    padding    : 0 .2rem 0 .37333rem;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.member-icon-qrcode {
+    font-size: .53333rem;
+    padding  : .13333rem;
+}
+
+.user-center-asset {
+    overflow  : hidden;
+    width     : 100%;
+    background: #fff;
+}
+
+.asset-item {
+    float       : left;
+    width       : 33.33333%;
+    height      : 170rpx;
+    overflow    : hidden;
+    position    : relative;
+    text-align  : center;
+    border-right: solid #eee;
+    border-width: 1px;
+
+    .asset-content {
+        margin           : auto;
+        width            : 100%;
+        position         : absolute;
+        top              : 50%;
+        left             : 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform    : translate(-50%, -50%);
+        transform        : translate(-50%, -50%);
+    }
+
+    .asset-content-t,
+    .asset-content-v {
+        color         : #333;
+        letter-spacing: 0;
+        text-align    : center;
+    }
+
+    .asset-content-t {
+        font-family: PingFangSC-Light;
+        font-size  : 35rpx;
+        line-height: 35rpx;
+    }
+}
+
+.user-center-order {
+    margin-top: .26667rem;
+    background: #fff;
+
+    .order-head {
+        height       : 1.14667rem;
+        line-height  : 1.14667rem;
+        padding      : 0 .4rem;
+        border-bottom: solid #eee;
+        border-width : 1px;
+    }
+
+    .order-head-name {
+        font-size: 36rpx;
+        color    : #333;
+    }
+
+    .order-head-btn {
+        float       : right;
+        font-size   : 34rpx;
+        color       : #999;
+        margin-right: 34rpx;
+    }
+}
+
+.order-head-btn,
+.order-head-name {
+    font-family   : PingFangSC-Light;
+    letter-spacing: 0;
+}
+
+.order-content {
+    overflow: hidden;
+    width   : 100%;
+    display : -webkit-box;
+    display : -webkit-flex;
+    display : -ms-flexbox;
+    display : flex;
+
+    .order-item {
+        -webkit-box-flex: 1;
+        -webkit-flex    : 1 1;
+        -ms-flex        : 1 1;
+        flex            : 1 1;
+        height          : 2.08rem;
+        overflow        : hidden;
+        position        : relative;
+        text-align      : center;
+
+        .order-content-box {
+            margin           : auto;
+            position         : absolute;
+            width            : 100%;
+            top              : 50%;
+            left             : 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform    : translate(-50%, -50%);
+            transform        : translate(-50%, -50%);
+        }
+
+        .sprite-payment {
+            background-position: -3.91067rem -.97733rem;
+        }
+    }
+}
+
+.user-center-menu {
+    margin-top: 26rpx;
+
+    a.arrows:visited {
+        color          : #c3c3c3;
+        text-decoration: none;
+    }
+
+    .sprite-distribution {
+        background-position: -3.27067rem -2.93333rem;
+    }
+
+    .text-line-1 {
+        display           : -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+}

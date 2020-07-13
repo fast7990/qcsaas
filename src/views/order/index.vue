@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-24 16:09:50
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-03 17:00:24
+ * @LastEditTime: 2020-07-06 11:27:41
  * @Description: 
 --> 
 <template>
@@ -97,39 +97,37 @@
           :header-cell-style="{ background: '#f2f2f2' }"
           :span-method="arraySpanMethod"
         >
-          <el-table-column label="商品">
+          <el-table-column label="商品" width="300px">
             <el-row style="padding:10px 0;background:#f2f2f2">
               <el-col :span="6">订单编号：2019092309485700000001</el-col>
               <el-col :span="6">下单时间：2019-09-23 09:48:57</el-col>
-              <el-col :span="9">付款方式：微信付款</el-col>
+              <el-col :span="8">付款方式：微信付款</el-col>
               <el-col :span="3">查看详情</el-col>
             </el-row>
             <el-table
               :data="tableDataProduct"
               :border="true"
               :show-header="false"
-              style="width: 100%"
               :span-method="arraySpanMethodSubTable"
               @selection-change="handleSelectionChangeProduct"
               @sort-change="changeSortTable"
             >
-              <el-table-column prop="date"></el-table-column>
-              <el-table-column prop="name"></el-table-column>
-              <el-table-column prop="name"></el-table-column>
-              <el-table-column prop="address"></el-table-column>
-              <el-table-column prop="address"></el-table-column>
-              <el-table-column prop="address"></el-table-column>
-              <el-table-column prop="address"></el-table-column>
+              <el-table-column prop="date" width="300px"></el-table-column>
+              <el-table-column prop="name" width="200px"></el-table-column>
+              <el-table-column prop="name" width="200px"></el-table-column>
+              <el-table-column prop="address" width="200px"></el-table-column>
+              <el-table-column prop="address" width="200px"></el-table-column>
+              <el-table-column prop="address" width="120px"></el-table-column>
+              <el-table-column prop="address" width="120px"></el-table-column>
               <el-table-column prop="address"></el-table-column>
             </el-table>
           </el-table-column>
-          <el-table-column label="商品" width="200"></el-table-column>
-          <el-table-column label="价格"></el-table-column>
-          <el-table-column label="数量"></el-table-column>
-          <el-table-column label="收货人/手机"></el-table-column>
-          <el-table-column label="付款金额" sortable></el-table-column>
-          <el-table-column label="物流方式"></el-table-column>
-          <el-table-column label="订单状态"></el-table-column>
+          <el-table-column label="价格" width="200px"></el-table-column>
+          <el-table-column label="数量" width="200px"></el-table-column>
+          <el-table-column label="收货人/手机" width="200px"></el-table-column>
+          <el-table-column label="付款金额" sortable width="200px"></el-table-column>
+          <el-table-column label="物流方式" width="120px"></el-table-column>
+          <el-table-column label="订单状态" width="120px"></el-table-column>
           <el-table-column label="操作"></el-table-column>
         </el-table>
       </div>

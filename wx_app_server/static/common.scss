@@ -1,0 +1,109 @@
+img {
+    -ms-interpolation-mode: bicubic;
+    vertical-align        : middle;
+    display               : block;
+    max-width             : 100%;
+    width                 : 100%;
+}
+
+.member-photo,
+.member-pic {
+    border-radius      : 50%;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative  : 0;
+    flex-shrink        : 0;
+}
+
+.member-photo,
+.member-pic {
+    border-radius      : 50%;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative  : 0;
+    flex-shrink        : 0;
+}
+
+.cell-item.arrows {
+    color: #c3c3c3;
+
+    .cell-item {
+        min-height         : 1.06667rem;
+        clear              : both;
+        float              : none;
+        background-color   : #fff;
+        padding            : 0 .42667rem;
+        font-size          : .4rem;
+        color              : #212121;
+        -webkit-box-align  : center;
+        -webkit-align-items: center;
+        -ms-flex-align     : center;
+        align-items        : center;
+    }
+}
+
+.arrows {
+    position: relative;
+}
+
+.menu-cell-left {
+    width  : 60%;
+    display: inline-block;
+}
+
+.menu-cell-left-img {
+    width       : 48rpx;
+    height      : 48rpx;
+    margin-right: 10rpx;
+}
+
+.menu-cell-content {
+    float        : right;
+    width        : 40%;
+    color        : #999;
+    font-size    : 28rpx;
+    padding-right: 30rpx;
+    text-align   : right;
+}
+
+.menu-cell-title {
+    font-family: PingFangSC-Light;
+    min-width  : 280rpx;
+    color      : #333;
+    font-size  : 28rpx;
+    max-width  : 400rpx;
+    white-space: nowrap;
+    font-weight: 400;
+}
+
+.arrows:after {
+    content          : "";
+    display          : inline-block;
+    width            : 16rpx;
+    height           : 16rpx;
+    border-top       : 4rpx solid #c3c3c3;
+    border-right     : 4rpx solid #c3c3c3;
+    position         : absolute;
+    top              : 50%;
+    right            : 30rpx;
+    margin-top       : -8rpx;
+    -webkit-transform: rotate(45deg);
+    -ms-transform    : rotate(45deg);
+    transform        : rotate(45deg);
+}
+
+.menu-cell {
+    display            : flex;
+    align-items        : center;
+    padding            : 30rpx 20rpx;
+    font-size          : 28rpx;
+    border-bottom      : 1rpx solid #e0e0e0;
+    position           : relative;
+    background-color   : #fff;
+    -webkit-box-align  : center;
+    -webkit-align-items: center;
+    -ms-flex-align     : center;
+    align-items        : center;
+}
+
+.menu-cell:last-child {
+    border: none;
+}
