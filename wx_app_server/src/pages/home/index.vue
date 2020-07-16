@@ -1,37 +1,38 @@
 <template>
   <div>
-    <div @click="open">asd</div>
+    <basecompLunbotu></basecompLunbotu>
   </div>
 </template>
 
 <script>
+import { openModules } from "@/config/index";
+import basecompLunbotu from "@/components/basecomp_lunbotu/basecomp_lunbotu.vue";
 export default {
   data() {
     return {
-      motto: "Hello miniprograme"
+      apps_body: [],
+      openList: [],
+      openListValue: []
     };
   },
-
-  components: {},
-  mounted() {},
-  created() {
-    // let app = getApp()
-  },
-  onShow() {
-    console.log(1212);
-  },
+  components: { basecompLunbotu },
   onPullDownRefresh() {
     setTimeout(() => {
       //todo
-      wx.stopPullDownRefresh();
+      mpvue.stopPullDownRefresh();
     }, 500);
   },
+  onShow() {},
+  onLoad() {},
+  created() {
+    this.getList();
+  },
   methods: {
-    open() {
-      wx.switchTab({
-        url: "/pages/my/main"
-      });
-    }
+    getList() {
+      // this.openList = openModules(this)[0];
+      // console.log(this.openList)
+    },
+    onClick() {}
   }
 };
 </script>

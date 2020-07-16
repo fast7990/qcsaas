@@ -25,55 +25,39 @@
         <div class="user-center-order">
           <div class="order-head cell-item arrows">
             <span class="order-head-name">订单信息</span>
-            <a class="order-head-btn">查看全部订单</a>
+            <a class="order-head-btn" @click="openPage(2)">查看全部订单</a>
           </div>
           <div class="order-content">
             <div class="order-item">
-              <a class="order-content-box">
-                <div
-                  class="sprite-payment"
-                  style="background-image: url('https://stc.weimob.cn/saas/retail/image/user/member/member-icon_all3x.png?v5');"
-                ></div>
+              <a class="order-content-box" @click="openPage(3)">
+                <div class="sprite-payment">
+                  <img class="img" src="/static/images/a1.png" alt />
+                </div>
                 <div class="order-content-t">待付款</div>
               </a>
             </div>
             <div class="order-item">
-              <a href="/pages/home/main" class="order-content-box" open-type="switchTab">
-                <div
-                  class="sprite-sendout"
-                  style="background-image: url(https://stc.weimob.cn/saas/retail/image/user/member/member-icon_all3x.png?v5);"
-                ></div>
+              <a class="order-content-box" @click="openPage(4)">
+                <div class="sprite-payment">
+                  <img class="img" src="/static/images/a2.png" alt />
+                </div>
                 <div class="order-content-t">待发货</div>
               </a>
             </div>
             <div class="order-item">
-              <a class="order-content-box">
-                <div
-                  class="sprite-receiving"
-                  style="background-image: url(https://stc.weimob.cn/saas/retail/image/user/member/member-icon_all3x.png?v5);"
-                ></div>
+              <a class="order-content-box" @click="openPage(5)">
+                <div class="sprite-payment">
+                  <img class="img" src="/static/images/a3.png" alt />
+                </div>
                 <div class="order-content-t">待收货</div>
               </a>
             </div>
             <div class="order-item">
-              <a class="order-content-box">
-                <div
-                  class="sprite-evaluate"
-                  style="background-image: url(https://stc.weimob.cn/saas/retail/image/user/member/member-icon_all3x.png?v5);"
-                ></div>
+              <a class="order-content-box" @click="openPage(6)">
+                <div class="sprite-payment">
+                  <img class="img" src="/static/images/a4.png" alt />
+                </div>
                 <div class="order-content-t">待评价</div>
-              </a>
-            </div>
-            <div class="order-item">
-              <a
-                class="order-content-box"
-                href="/saas/retail/100000956995/2142182995/order/rights/index?isComment=1"
-              >
-                <div
-                  class="sprite-refund"
-                  style="background-image: url(https://stc.weimob.cn/saas/retail/image/user/member/member-icon_all3x.png?v5);"
-                ></div>
-                <div class="order-content-t">退款/售后</div>
               </a>
             </div>
           </div>
@@ -163,23 +147,41 @@
 <script>
 export default {
   data() {
-    return {
-      motto: "Hello miniprograme"
-    };
+    return {};
   },
 
   components: {},
-  mounted() {},
+  onLoad(options) {},
   onPullDownRefresh() {
     setTimeout(() => {
       //todo
-      wx.stopPullDownRefresh();
+      mpvue.stopPullDownRefresh();
     }, 500);
   },
-  methods: {},
-
-  created() {
-    // let app = getApp()
+  methods: {
+    openPage(type) {
+      switch (Number(type)) {
+        case 1:
+          break;
+        case 2:
+          mpvue.navigateTo({ url: "/pages/order/main?type=0" });
+          break;
+        case 3:
+          mpvue.navigateTo({ url: "/pages/order/main?type=1" });
+          break;
+        case 4:
+          mpvue.navigateTo({ url: "/pages/order/main?type=2" });
+          break;
+        case 5:
+          mpvue.navigateTo({ url: "/pages/order/main?type=3" });
+          break;
+        case 6:
+          mpvue.navigateTo({ url: "/pages/order/main?type=4" });
+          break;
+        default:
+          break;
+      }
+    }
   }
 };
 </script>

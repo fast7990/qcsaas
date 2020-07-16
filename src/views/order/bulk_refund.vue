@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-24 16:09:50
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-06-24 17:26:36
+ * @LastEditTime: 2020-07-13 17:18:23
  * @Description: 
 --> 
 <template>
@@ -13,7 +13,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  name: "bulk_refund",
+  name: "BulkRefund",
   computed: {
     ...mapGetters(["name"])
   }

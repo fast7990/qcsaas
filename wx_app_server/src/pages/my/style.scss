@@ -169,6 +169,12 @@
 
         .sprite-payment {
             background-position: -3.91067rem -.97733rem;
+           display: flex;
+           justify-content: center;
+            .img {
+                width : 80rpx;
+                height: 75rpx;
+            }
         }
     }
 }

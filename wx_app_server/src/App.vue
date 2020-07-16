@@ -26,20 +26,23 @@ export default {
   },
   log() {
     console.log(`log at:${Date.now()}`);
-  }
+  },
+  onShow() {}
 };
 </script>
 
 <style lang="scss">
 @import "../static/common.scss";
 @import "../static/flex.css";
+@import url("../colorui/animation.css");
+@import url("../colorui/main.css");
+@import url("../colorui/icon.css");
 .container {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
 }
 /* this rule will be remove */
