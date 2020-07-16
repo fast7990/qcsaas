@@ -28,10 +28,7 @@ export default {
     this.getList();
   },
   methods: {
-    getList() {
-      // this.openList = openModules(this)[0];
-      // console.log(this.openList)
-    },
+    getList() {},
     onClick() {}
   }
 };
