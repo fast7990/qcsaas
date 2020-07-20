@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-07-08 18:33:51
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-16 15:36:32
+ * @LastEditTime: 2020-07-20 16:11:18
  * @Description: 
 --> 
 <template>
@@ -24,7 +24,6 @@ export default {
   props: ["options"],
   watch: {
     options(e) {
-      console.log(e, "====");
       this.t_options = e;
     }
   },
