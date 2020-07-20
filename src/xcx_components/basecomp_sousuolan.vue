@@ -9,7 +9,7 @@
   <div class="shousuolan" @click.stop="onclick($event)">
     <div class="content-box">
       <van-icon name="search" class="search-icon ml10" />
-      <span class="places ml10">asdasd</span>
+      <span class="places ml10"></span>
     </div>
   </div>
 </template>

@@ -7,7 +7,8 @@ const state = {
   },
   showRightSidebar: 'hideright',
   device: 'desktop',
-  isOpenSideBar: false
+  isOpenSideBar: false,
+  baseUrlApi: 'http://localhost:3000'
 }
 
 const mutations = {

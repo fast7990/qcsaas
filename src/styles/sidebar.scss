@@ -37,17 +37,6 @@
     z-index         : 1001;
     overflow        : hidden;
 
-    #app .sidebar-container {
-      .scrollbar-wrapper {
-        .el-scrollbar__view {
-          .el-menu {
-            height: 100vh;
-          }
-        }
-      }
-    }
-
-
     // reset element-ui css
     .horizontal-collapse-transition {
       transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
@@ -57,7 +46,7 @@
       overflow-x: hidden !important;
 
       .el-menu {
-        height: 100vh;
+        // height: 100vh;
       }
     }
 
@@ -109,10 +98,6 @@
       height: 100%;
       width : 100% !important;
 
-      .el-menu-item {
-        width: 100px;
-      }
-
       .nest-menu .el-menu-item {
         width: auto;
       }
@@ -120,12 +105,12 @@
 
     .sub-menu-list {
       .el-menu {
-        position        : absolute;
-        top             : 0;
-        right           : 0;
-        width           : 130px !important;
-        background-color: #ffffff !important;
-        z-index         : -1;
+        // position        : absolute;
+        // top             : 0;
+        // right           : 0;
+        // width           : 130px !important;
+        // background-color: #ffffff !important;
+        // z-index         : -1;
 
         .router-link-exact-active {
           border-right: 2px solid rgb(64, 158, 255);
@@ -134,14 +119,12 @@
         .el-menu-item {
           min-width       : auto !important;
           padding         : 0;
-          background-color: #ffffff !important;
-
         }
       }
     }
 
     .el-submenu__title {
-      width: 100px;
+      width: 100%;
     }
 
     // menu hover
