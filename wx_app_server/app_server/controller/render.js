@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-28 17:17:49
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-17 17:48:56
+ * @LastEditTime: 2020-07-20 16:05:42
  * @Description: 
  */
 // const koa2Req = require('koa2-request')
@@ -23,21 +23,34 @@ class AppRenderController {
     // get获取前台参数 ctx.query
     // 获取轮播图
     static home(ctx, next) {
-        const files = require('../mode/home');
+        const processFile = require('../mode/home');
+        ctx.query.access_token = 'ubedqj07b7nq53v78oafqlaaen';
         try {
-            getApiData('ubedqj07b7nq53v78oafqlaaen').then(res => {
-                console.log(JSON.stringify(res));
-            })
-            writeFileBuild.writeFile("./src/pages/home/index.vue", files([{ name: 'basecomp_lunbotu' }]).template);
-            ctx.body = {
-                message: '写入成功',
-                success: true,
-                data: 'success'
+            if (ctx.query.access_token) {
+                // getApiData(ctx.query.access_token).then(res => {
+                //     console.log(JSON.stringify(res));
+                // })
+                console.log(ctx.query.setdata)
+                writeFileBuild.writeFile("./src/pages/home/index.vue", processFile(JSON.parse(ctx.query.setdata)).template);
+                ctx.body = {
+                    message: '写入成功',
+                    status: true,
+                    code: 200,
+                    data: 'success'
+                }
+            } else {
+                ctx.body = {
+                    message: '未传token',
+                    status: false,
+                    code: 300,
+                    data: 'success'
+                }
             }
+
         } catch (e) {
             ctx.body = {
                 message: e,
-                success: false,
+                status: false,
                 code: 500
             }
         }

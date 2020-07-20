@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-06-28 17:06:48
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-06-28 19:23:44
+ * @LastEditTime: 2020-07-20 15:53:44
  * @Description: 
  */
 const Router = require('koa-router');
@@ -14,6 +14,6 @@ module.exports = () => {
         ctx.body = "首页222";
     }) // 首页
     //生成
-    router.get('/api/app_render', AppRenderController.home)
+    router.post('/api/app_render', AppRenderController.home)
     return router;
 }
