@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-07-20 11:47:38
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-21 09:14:56
+ * @LastEditTime: 2020-07-21 09:43:37
  * @Description: 
  */
 function setTemp(options) {
@@ -17,7 +17,7 @@ function setTemp(options) {
             obj.view += '<' + item.name.replace('_', '') + ' />';
             if (copy_obj[item.name] === undefined) {
                 copy_obj[item.name] = item.name
-                obj.components += 'import ' + item.name.replace('_', '') + ' from ' + '"@/components/xcx_components/' + item.name + '/' + item.name + '.vue";'
+                obj.components += 'import ' + item.name.replace('_', '') + ' from ' + '"@/components/xcx_components/' + item.name + '.vue";'
                 obj.components_name += item.name.replace('_', '') + ',';
             }
         });

@@ -18,8 +18,8 @@
               <span class="mobile" style="margin-top:20px">手机号码</span>
               <input
                 type="text"
-                ref="username"
-                v-model="loginForm.username"
+                ref="mobile"
+                v-model="loginForm.mobile"
                 placeholder="请输入手机号码"
                 placeholder-class="input-placeholder"
               />
@@ -34,10 +34,10 @@
                 placeholder-class="input-placeholder"
               />
             </div>
-            <div class="word_top">
-              <span class="word">hava not password</span>
-              <span class="word_title">Sign Up</span>
-            </div>
+            <!-- <div class="word_top">
+              <span class="word">忘记密码</span>
+              <span class="word_title">登陆</span>
+            </div>-->
 
             <div class="button">
               <el-button
@@ -45,7 +45,7 @@
                 type="primary"
                 style="width:100%;margin-bottom:30px;background: #e46e62;border:none;"
                 @click.native.prevent="handleLogin"
-              >Sign Up</el-button>
+              >登陆</el-button>
             </div>
             <div class="forget">
               <a href>忘记密码</a>
@@ -65,25 +65,25 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+        callback(new Error("请输入手机号"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("请输入最少6位密码"));
       } else {
         callback();
       }
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111"
+        mobile: "13303229781",
+        password: ""
       },
       loginRules: {
-        username: [
+        mobile: [
           { required: true, trigger: "blur", validator: validateUsername }
         ],
         password: [
@@ -116,6 +116,7 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        console.log(valid);
         if (valid) {
           this.loading = true;
           this.$store
@@ -155,6 +156,9 @@ $cursor: #fff;
   height: 592px;
   border-radius: 5px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  background: url("../../assets/images/loginbg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .box-right {
   width: 383px;

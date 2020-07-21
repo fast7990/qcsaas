@@ -5,8 +5,8 @@
   </div>
 </template>
       <script>
-import basecomplunbotu from "@/components/basecomp_lunbotu/basecomp_lunbotu.vue";
-import basecompsousuolan from "@/components/basecomp_sousuolan/basecomp_sousuolan.vue";
+import basecomplunbotu from "@/components/xcx_components/basecomp_lunbotu.vue";
+import basecompsousuolan from "@/components/xcx_components/basecomp_sousuolan.vue";
 export default {
   data() {
     return {

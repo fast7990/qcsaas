@@ -76,6 +76,42 @@ export const constantRoutes = [{
     title: '模板'
   },
   children: [{
+    path: 'mall',
+    name: 'mall',
+    component: () => import('@/views/template/mall'),
+    meta: {
+      title: '商城页面'
+    }
+  }, {
+    path: 'addMallPage',
+    name: 'addMallPage',
+    hidden: true,
+    component: () => import('@/views/template/addMallPage'),
+    meta: {
+      title: '商城页面'
+    }
+  }, {
+    path: 'mallColor',
+    name: 'mallColor',
+    component: () => import('@/views/template/mallColor'),
+    meta: {
+      title: '商城色系'
+    }
+  }, {
+    path: 'productList',
+    name: 'productList',
+    component: () => import('@/views/template/productList'),
+    meta: {
+      title: '商品列表模板'
+    }
+  }, {
+    path: 'user',
+    name: 'user',
+    component: () => import('@/views/template/user'),
+    meta: {
+      title: '个人中心模板'
+    }
+  }, {
     path: 'template',
     name: 'template',
     component: () => import('@/views/template/index'),

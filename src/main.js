@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import '@/styles/index.scss' // global css
+import http from '@/utils/request'
 
 import Vant from 'vant';
 import 'vant/lib/index.css';
@@ -16,7 +17,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+Vue.prototype.$http = http;
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
