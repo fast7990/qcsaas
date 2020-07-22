@@ -22,3 +22,9 @@ export function logout() {
     method: 'post'
   })
 }
+export function userList(data) {
+  return request({
+    url: '/mall/user/list',
+    method: 'post',data
+  })
+}
