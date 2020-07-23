@@ -288,6 +288,10 @@ export const constantRoutes = [{
       title: '客户管理'
     }
   }, {
+    path: 'details',
+    name: 'details',
+    component: () => import('@/views/user/customerDetails'),
+  },{
     path: 'customer_label',
     name: 'customer_label',
     component: () => import('@/views/user/customer_label'),

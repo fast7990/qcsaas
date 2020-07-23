@@ -2,33 +2,23 @@
 <template>
   <div class="users">
     <div class="users_container">
-      <el-form ref="label_form" :model="label_form">
+      <el-form ref="label_form">
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item label="微信昵称:"  class="flex">
-              <el-input
-                v-model="value1"
-                type="text"
-                placeholder="请输入内容"
-                class="input-box"
-              />
+            <el-form-item label="微信昵称:" class="flex">
+              <el-input type="text" placeholder="请输入内容" class="input-box" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="手机号:" class="flex">
-              <el-input
-                v-model="value2"
-                type="text"
-                placeholder="请输入内容"
-                class="input-box"
-              />
+              <el-input type="text" placeholder="请输入内容" class="input-box" />
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="分类:" class="flex">
-              <el-select v-model="label_form.type" placeholder="请选择">
+              <el-select v-model="value" placeholder="请选择">
                 <el-option
-                  v-for="item in order_type_list"
+                  v-for="item in options"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -38,9 +28,9 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="分类:" class="flex">
-              <el-select v-model="label_form.type" placeholder="请选择">
+              <el-select v-model="value" placeholder="请选择">
                 <el-option
-                  v-for="item in order_type_list"
+                  v-for="item in options"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -139,7 +129,7 @@
               <el-button plain>修改积分</el-button>
               <el-button plain>送券</el-button>
               <el-button plain>发短信</el-button>
-              <el-button plain>加入黑名单</el-button>
+              <el-button plain @click="open">加入黑名单</el-button>
             </el-col>
           </el-row>
         </div>
@@ -156,17 +146,24 @@
       >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="客户信息" width="193">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          <template slot-scope="scope">
+            <p>{{ scope.row.nick }}</p>
+            <span>{{scope.row.mobile}}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="分类" width="165"></el-table-column>
-        <el-table-column prop="name" label="消费金额" sortable width="165"></el-table-column>
-        <el-table-column prop="name" label="消费次数" sortable width="165"></el-table-column>
-        <el-table-column prop="name" label="订单均价" sortable width="165"></el-table-column>
-        <el-table-column prop="name" label="当前余额" sortable width="165"></el-table-column>
-        <el-table-column prop="name" label="当前积分" sortable width="165"></el-table-column>
-        <el-table-column prop="name" label="最近消费时间" width="165"></el-table-column>
-        <el-table-column prop="name" label="获客时间" width="165"></el-table-column>
-        <el-table-column prop="name" label="操作" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="created_at" label="分类" width="165"></el-table-column>
+        <el-table-column prop="created_at" label="消费金额" sortable width="165"></el-table-column>
+        <el-table-column prop="created_at" label="消费次数" sortable width="165"></el-table-column>
+        <el-table-column prop="created_at" label="订单均价" sortable width="165"></el-table-column>
+        <el-table-column prop="created_at" label="当前余额" sortable width="165"></el-table-column>
+        <el-table-column prop="created_at" label="当前积分" sortable width="165"></el-table-column>
+        <el-table-column prop="created_at" label="最近消费时间" width="165"></el-table-column>
+        <el-table-column prop="created_at" label="获客时间" width="165"></el-table-column>
+        <el-table-column label="操作" show-overflow-tooltip>
+          <template slot-scope="scope">
+            <p style="color: #0066FF;cursor:pointer" @click="customerDetails(scope.row.id)">详情</p>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="flex flex--justify-content--end" style="padding-top:10px;">
         <el-pagination background layout="prev, pager, next" :total="total_num"></el-pagination>
@@ -177,7 +174,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {userList} from "@/api/user.js";
+import { userList, userAddBlackList } from "@/api/user";
 export default {
   name: "user",
   computed: {
@@ -185,29 +182,109 @@ export default {
   },
   data() {
     return {
-      value1:"",
-      value2:"",
+      value1: "",
+      value2: "",
+      ruleForm: "",
+      rules: "",
+      dialogFormVisible: false,
       total_num: 100,
       tableData: [],
       order_type_list: [],
-      label_form: {}
+      label_form: {},
+      selects: [],
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕"
+        },
+        {
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭"
+        }
+      ],
+      value: ""
     };
   },
- created() {
-   console.log(11111111)
-    var data = {
-      nick: "ss",
-      mobile: "18234368477",
-      reg_start:"1594656000000",
-      reg_end:"1594828800000",
-      page: 1,
-      page_size: 10
-    };
-    userList(data).then(res=>{});
-    console.log(res)
+  created() {
+    this.getUserList();
   },
   methods: {
-    
+    handleSelectionChange(e) {
+      this.selects = e;
+    },
+    async getUserList() {
+      var token = "5uhrsn61mikgobhtdlpp8ek67c";
+      var res = await userList({ access_token: token });
+      this.tableData = res.response_data.items;
+    },
+    open() {
+      if (this.selects.length == 0) {
+        this.$message({
+          message: "请勾选客户",
+          type: "warning"
+        });
+      } else {
+        this.$confirm(
+          "确认将" +
+            this.selects.length +
+            "个客户加入黑名单？加入黑名单后请去黑名单模块管理",
+          "加入黑名单确认",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        )
+          .then(() => {
+            this.$message({
+              type: "success",
+              message: "加入黑名单成功"
+            });
+            this.getAddBlackList();
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消加入"
+            });
+          });
+      }
+    },
+    async getAddBlackList() {
+      var ids = [];
+      if (this.selects.length > 0) {
+        this.selects.forEach(v => {
+          ids.push(v.id);
+        });
+      }
+      var data = {
+        access_token: "5uhrsn61mikgobhtdlpp8ek67c",
+        ids: ids
+      };
+      var res = await userAddBlackList(data);
+      this.getUserList();
+    },
+    customerDetails(id){
+      console.log(id)
+      this.$router.push({
+        path: "/user/details",
+        query:{
+          id:id
+        }
+      })
+    }
   }
 };
 </script>

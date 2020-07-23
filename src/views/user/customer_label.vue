@@ -65,7 +65,9 @@ export default {
       label_form: {}
     };
   },
-  methods: {}
+  methods: {
+    handleSelectionChange(){}
+  }
 };
 </script>
 
