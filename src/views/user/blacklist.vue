@@ -90,6 +90,12 @@
         <el-table-column prop="created_at" label="最近消费时间" width="165"></el-table-column>
         <el-table-column prop="created_at" label="获客时间" width="165"></el-table-column>
         <el-table-column prop="created_at" label="操作" show-overflow-tooltip></el-table-column>
+        <template slot="empty">
+          <div>
+            暂无商品记录，请
+            <el-button @click="importProduct(1)" type="text">导入商品</el-button>
+          </div>
+        </template>
       </el-table>
       <div class="flex flex--justify-content--end" style="padding-top:10px;">
         <el-pagination background layout="prev, pager, next" :total="total_num"></el-pagination>
@@ -138,8 +144,10 @@ export default {
   },
   methods: {
     async getblackList() {
+      var getToken = document.cookie.split(";")[0].split("=")[1];
+      var token = getToken;
       var res = await blackLists({
-        access_token: "5uhrsn61mikgobhtdlpp8ek67c"
+        access_token: token
       });
       this.tableData = res.response_data.items;
     },
@@ -180,13 +188,15 @@ export default {
     },
     async getRemoveBlackList() {
       var ids = [];
+      var getToken = document.cookie.split(";")[0].split("=")[1];
+      var token = getToken;
       if (this.selects.length > 0) {
         this.selects.forEach(v => {
           ids.push(v.id);
         });
       }
       var data = {
-        access_token: "5uhrsn61mikgobhtdlpp8ek67c",
+        access_token: token,
         ids: ids
       };
       var res = await userRemoveBlackList(data);

@@ -32,7 +32,7 @@
               :expand-on-click-node="false"
             >
               <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{ node.label }}</span>
+                <span>{{  data.label }}</span>
                 <span v-if="data.show">
                   <el-button type="text" size="mini" @click="() => addNodeBtn(3,data)">
                     <i class="el-icon-edit-outline" style="font-size:16px;"></i>
@@ -134,6 +134,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getProductCategoryList,getProductCategoryCreate } from "@/api/product"
 let id = 1000;
 export default {
   name: "import",
@@ -186,7 +187,30 @@ export default {
       tree_data_sub: []
     };
   },
+  created(){
+    this.getProductCategoryLists();
+  },
   methods: {
+    async getProductCategoryLists(){
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var data = {
+        access_token: token,
+      }
+      var res = await getProductCategoryList(data);
+      console.log(res);
+    },
+    async getProductCategoryCreates(type){
+      console.log(this.form.parent_name)
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var data = {
+        access_token: token,
+        name: this.form.parent_name,
+        parent_id: type 
+      }
+      var res = await getProductCategoryCreate(data);
+      console.log(res);
+    },
+    
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -218,6 +242,7 @@ export default {
     addNodeBtn(type, data) {
       if (type == 1) {
         this.show_dialog_parent_visible = true;
+        this.getProductCategoryCreates(0)
       } else if (type == 2) {
         this.show_sub_select = true;
         this.show_dialog_sub_visible = true;
@@ -233,7 +258,6 @@ export default {
       } else if (type == 2) {
         // 确定
         tree_data.push({
-          id: id++,
           label: this.form.parent_name,
           children: []
         });
@@ -242,25 +266,26 @@ export default {
         this.show_dialog_sub_visible = false;
       } else if (type == 4) {
         console.log(this.form.region);
-        if (this.show_sub_select) {
-          if (this.form.region != "" && this.form.sub_name != "") {
-            tree_data.map(item => {
-              if (item.id == this.form.region) {
-                item.children.push({
-                  id: id++,
-                  show: true,
-                  label: this.form.sub_name,
-                  img: "",
-                  children: []
-                });
-              }
-            });
-          }
-        } else {
-          if (this.form.sub_name != "") {
-            this.append(this.tree_data_sub, this.form.sub_name);
-          }
-        }
+        this.getProductCategoryCreates(4)
+        // if (this.show_sub_select) {
+        //   if (this.form.region != "" && this.form.sub_name != "") {
+        //     tree_data.map(item => {
+        //       if (item.id == this.form.region) {
+        //         item.children.push({
+        //           id: id++,
+        //           show: true,
+        //           label: this.form.sub_name,
+        //           img: "",
+        //           children: []
+        //         });
+        //       }
+        //     });
+        //   }
+        // } else {
+        //   if (this.form.sub_name != "") {
+        //     this.append(this.tree_data_sub, this.form.sub_name);
+        //   }
+        // }
         this.show_dialog_sub_visible = false;
       }
     }

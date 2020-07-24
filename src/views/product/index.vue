@@ -98,13 +98,13 @@
         @sort-change="changeSortTable"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="date" label="商品" width="200"></el-table-column>
+        <el-table-column prop="name" label="商品" width="200"></el-table-column>
         <el-table-column prop="name" label="商品分类"></el-table-column>
-        <el-table-column prop="address" label="价格" sortable></el-table-column>
-        <el-table-column prop="address" label="状态"></el-table-column>
-        <el-table-column prop="address" label="销量" sortable></el-table-column>
-        <el-table-column prop="address" label="库存" sortable></el-table-column>
-        <el-table-column prop="address" label="商品类型"></el-table-column>
+        <el-table-column prop="price" label="价格" sortable></el-table-column>
+        <el-table-column prop="status" label="状态" :formatter="judgeStatus"></el-table-column>
+        <el-table-column prop="status" label="销量" sortable></el-table-column>
+        <el-table-column prop="status" label="库存" sortable></el-table-column>
+        <el-table-column prop="name" label="商品类型"></el-table-column>
         <el-table-column prop="address" label="操作" width="60">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text">编辑</el-button>
@@ -120,57 +120,26 @@
 
 <script>
 import { mapGetters } from "vuex";
-
+import {
+  getProductList,
+  getProductOnShelf,
+  getProductOffShelf,
+} from "@/api/product";
+import { status } from "nprogress";
 export default {
   name: "product",
   computed: {
-    ...mapGetters(["name"])
+    ...mapGetters(["name"]),
   },
   data() {
     return {
-      total_num: 100,
+      total_num: 10,
       form: {
         name: "",
         status: "",
-        date: ""
+        date: "",
       },
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ],
+      tableData: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -180,7 +149,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近一个月",
@@ -189,7 +158,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近三个月",
@@ -198,62 +167,154 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       product_type_options: [
         {
           value: "0",
-          label: "全部"
+          label: "全部",
         },
         {
           value: "1",
-          label: "普通商品"
+          label: "普通商品",
         },
         {
           value: "2",
-          label: "预售商品"
-        }
+          label: "预售商品",
+        },
       ],
       state_options: [
         {
           value: "0",
-          label: "全部"
+          label: "全部",
         },
         {
           value: "1",
-          label: "上架"
+          label: "上架",
         },
         {
           value: "2",
-          label: "下架"
+          label: "下架",
         },
         {
           value: "3",
-          label: "草稿"
-        }
+          label: "草稿",
+        },
       ],
-      multipleSelection: ""
+      multipleSelection: "",
     };
   },
-  mounted() {},
+  created() {
+    this.getProductLists();
+  },
+  computed: {
+    judgeStatus(e) {
+      e.tableData.forEach((v) => {
+        if (v.status == 0) {
+          v.status = "下架";
+        } else {
+          v.status = "上架";
+        }
+      });
+    },
+  },
   methods: {
+    // 获取全部商品
+    async getProductLists() {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var res = await getProductList({
+        access_token: token,
+      });
+      this.tableData = res.response_data.items;
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     changeSortTable(e) {
       console.log(e);
     },
+    // 编辑
     handleClick(row) {
-      console.log(row);
+      this.$router.push({ path: "/product/add_product" ,query:{
+        details: row
+      }});
     },
     topBtnClick(type) {
       if (type == 1) {
         this.$router.push({ path: "/product/add_product" });
+      } else if (type == 2) {
+        this.getProductOnShelfs();
+      } else if (type == 3) {
+        this.getProductOffShelfs();
       }
-    }
-  }
+    },
+    // 上架
+    getProductOnShelfs() {
+      var mult = this.multipleSelection;
+      if (mult.length) {
+        var token = document.cookie.split(";")[0].split("=")[1];
+        var ids = [];
+        mult.forEach((v, i) => {
+          ids.push(v.id);
+          if(v.status == "下架"){
+            var res = getProductOnShelf({
+              access_token: token,
+              ids: ids,
+            });
+            this.$message({
+              message: "商品上架成功",
+              type: "success",
+            });
+            this.getProductLists();
+          } else {
+            this.$message({
+              message: "商品已经上架了",
+              type: "warning",
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "请勾选后重试",
+          type: "warning",
+        });
+      }
+    },
+    // 下架
+    getProductOffShelfs() {
+      var mult = this.multipleSelection;
+      if (mult.length) {
+        var token = document.cookie.split(";")[0].split("=")[1];
+        var ids = [];
+        mult.forEach((v, i) => {
+          ids.push(v.id);
+          if(v.status == "上架"){
+            var res = getProductOffShelf({
+              access_token: token,
+              ids: ids,
+            });
+            this.$message({
+              message: "商品下架成功",
+              type: "success",
+            });
+            this.getProductLists();
+          } else {
+            this.$message({
+              message: "商品已经下架了",
+              type: "warning",
+            });
+          }
+        });
+      } else {
+        this.$message({
+          message: "请勾选后重试",
+          type: "warning",
+        });
+      }
+    },
+  },
 };
 </script>
 

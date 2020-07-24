@@ -32,15 +32,7 @@ export default {
   },
   methods:{
       getTabs(){
-          var lis = document.querySelectorAll(".tabs li");
-          for(var i=0;i<lis.length;i++){
-              lis[i].index=i;
-              lis[i].addEventListener('click',function(){
-                  var index = this.index;
-                  var str = this.childNodes[0].getAttribute("type","primary");
-                console.log(str)
-              })
-          }
+         
       }
   }
 };

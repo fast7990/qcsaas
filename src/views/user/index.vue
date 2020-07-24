@@ -164,6 +164,12 @@
             <p style="color: #0066FF;cursor:pointer" @click="customerDetails(scope.row.id)">详情</p>
           </template>
         </el-table-column>
+        <template slot="empty">
+          <div>
+            暂无商品记录，请
+            <el-button @click="importProduct(1)" type="text">导入商品</el-button>
+          </div>
+        </template>
       </el-table>
       <div class="flex flex--justify-content--end" style="padding-top:10px;">
         <el-pagination background layout="prev, pager, next" :total="total_num"></el-pagination>
@@ -225,7 +231,8 @@ export default {
       this.selects = e;
     },
     async getUserList() {
-      var token = "5uhrsn61mikgobhtdlpp8ek67c";
+      var getToken = document.cookie.split(";")[0].split("=")[1];
+      var token = getToken;
       var res = await userList({ access_token: token });
       this.tableData = res.response_data.items;
     },
@@ -270,7 +277,7 @@ export default {
         });
       }
       var data = {
-        access_token: "5uhrsn61mikgobhtdlpp8ek67c",
+        access_token: document.cookie.split(";")[0].split("=")[1],
         ids: ids
       };
       var res = await userAddBlackList(data);

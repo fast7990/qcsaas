@@ -40,6 +40,12 @@
         <el-table-column prop="name" label="标签说明" align="center"></el-table-column>
         <el-table-column prop="name" label="创建时间" align="center"></el-table-column>
         <el-table-column prop="name" label="操作"  align="center"></el-table-column>
+        <template slot="empty">
+          <div>
+            暂无商品记录，请
+            <el-button @click="importProduct(1)" type="text">导入商品</el-button>
+          </div>
+        </template>
       </el-table>
       <div class="delete">
         <el-button>删除标签</el-button>

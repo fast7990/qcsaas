@@ -25,32 +25,25 @@
       <div class="table-box" style="margin-top:10px;">
         <el-table
           :data="tableDataLabelList"
-          height="600"
           :border="false"
           style="width: 100%"
           :header-cell-style="{ background: '#f2f2f2' }"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="name" label="商品" width="200"></el-table-column>
-          <el-table-column prop="name" label="商品分类"></el-table-column>
-          <el-table-column prop="address" label="价格"></el-table-column>
-          <el-table-column prop="address" label="状态"></el-table-column>
-          <el-table-column prop="address" label="销量"></el-table-column>
-          <el-table-column prop="address" label="库存"></el-table-column>
-          <el-table-column prop="address" label="商品类型"></el-table-column>
-          <el-table-column prop="address" label="操作" width="120">
+          <el-table-column prop="tag" label="标签名称" width="200"></el-table-column>
+          <el-table-column prop="user_num" label="商品数量"></el-table-column>
+          <el-table-column prop="remark" label="标签说明"></el-table-column>
+          <el-table-column prop="created_at" label="创建时间"></el-table-column>
+          <el-table-column label="操作" width="220">
             <template slot-scope="scope">
               <el-button @click="handleClick(scope.row,1)" type="text">编辑</el-button>
               <el-button @click="handleClick(scope.row,2)" type="text">设置商品</el-button>
+              <el-button type="text" size="small" @click="removeTableItem(scope.row)">删除标签</el-button>
             </template>
           </el-table-column>
         </el-table>
         <div class="flex flex--justify-content--space-between" style="padding-top:10px;">
-          <div>
-            <el-button type="danger" size="small" @click="removeTableItem(1)">删除标签</el-button>
-            <p class="el-checkbox__label" style="color:#999999;">删除勾选的标签，且移除商品与该标签关系及标签页面</p>
-          </div>
           <el-pagination background layout="prev, pager, next" :total="total_num"></el-pagination>
         </div>
       </div>
@@ -184,15 +177,20 @@
 
 <script>
 import { mapGetters } from "vuex";
+import {
+  getProductTagList,
+  getProductTagCreate,
+  getProductTagDelete,
+} from "@/api/product";
 
 export default {
   name: "import",
   computed: {
-    ...mapGetters(["name"])
+    ...mapGetters(["name"]),
   },
   data() {
     return {
-      total_num: 100,
+      total_num: 10,
       multipleSelection: [],
       search_val: "",
       dialogAddLabelVisible: false,
@@ -201,11 +199,11 @@ export default {
       edit: {
         edit: "",
         status: "",
-        search_val: ""
+        search_val: "",
       },
       label_form: {
         name: "",
-        desc: ""
+        desc: "",
       },
       product_type_options: [
         {
@@ -214,74 +212,63 @@ export default {
           children: [
             {
               value: "shejiyuanze",
-              label: "设计原则"
+              label: "设计原则",
             },
             {
               value: "cexiangdaohang",
-              label: "侧向导航"
+              label: "侧向导航",
             },
             {
               value: "dingbudaohang",
-              label: "顶部导航"
-            }
-          ]
-        }
+              label: "顶部导航",
+            },
+          ],
+        },
       ],
-      tableDataLabelList: [
-        {
-          id: 1,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 2,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 3,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 4,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 5,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          id: 6,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ],
+      tableDataLabelList: [],
       tableDataProduct: [
         {
           date: "2016-05-03",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          address: "上海市普陀区金沙江路 1518 弄",
         },
         {
           date: "2016-05-02",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ]
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+      ],
     };
   },
+  created() {
+    this.getProductTagLists();
+  },
   methods: {
+    async getProductTagLists() {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var res = await getProductTagList({
+        access_token: token,
+      });
+      this.tableDataLabelList = res.response_data.items;
+    },
+    async getProductTagCreates() {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var res = await getProductTagCreate({
+        access_token: token,
+        tag: this.label_form.name,
+        remark: this.label_form.desc,
+      });
+      this.getProductTagLists();
+    },
+    async getProductTagDeletes(id) {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var res = await getProductTagDelete({
+        access_token: token,
+        id: id,
+      });
+      this.getProductTagLists();
+    },
     handleSelectionChange(val) {
-      console.log(val);
       this.multipleSelection = val;
     },
     handleClick(row, type) {
@@ -316,41 +303,32 @@ export default {
       } else if (type == 3) {
         this.dialogAddLabelVisible = false;
       } else if (type == 4) {
-        this.addLabelTableItem();
+        // this.addLabelTableItem();
+        this.getProductTagCreates();
         this.dialogAddLabelVisible = false;
       }
     },
-    addLabelTableItem() {
-      // 添加标签
-      let item = {
-        id: 1,
-        date: "2016-05-03",
-        name: this.label_form.name,
-        address: "上海市普陀区金沙江路 1518 弄"
-      };
-      if (this.label_form.name) {
-        this.tableDataLabelList.unshift(item);
-      }
-    },
-    removeTableItem(type) {
-      // 1删除标签2删除标签绑定商品
-      console.log(this.tableDataLabelList, this.multipleSelection);
-      let data = this.tableDataLabelList;
-      let arr = [];
-      data.map(item => {
-        let flag = false;
-        this.multipleSelection.map(sub => {
-          if (sub.id == item.id) {
-            flag = true;
-          }
+    removeTableItem(d) {
+      this.$confirm("此操作将永久删除该标签, 是否继续?", "删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.getProductTagDeletes(d.id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
         });
-        if (!flag) {
-          arr.push(item);
-        }
-      });
-      this.tableDataLabelList = arr;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -72,6 +72,12 @@
         <el-table-column label="操作" show-overflow-tooltip width="350px">
           <p style="color: #0066FF;cursor:pointer">权益设置</p>
         </el-table-column>
+        <template slot="empty">
+          <div>
+            暂无商品记录，请
+            <el-button @click="importProduct(1)" type="text">导入商品</el-button>
+          </div>
+        </template>
       </el-table>
     </div>
   </div>
