@@ -32,12 +32,12 @@
               :expand-on-click-node="false"
             >
               <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{  data.label }}</span>
-                <span v-if="data.show">
+                <span>{{ data.label }}</span>
+                <span>
                   <el-button type="text" size="mini" @click="() => addNodeBtn(3,data)">
                     <i class="el-icon-edit-outline" style="font-size:16px;"></i>
                   </el-button>
-                  <el-button type="text" size="mini" @click="() => remove(node, data)">
+                  <el-button type="text" size="mini" @click="() => remove(data)">
                     <i class="el-icon-delete" style="font-size:16px;"></i>
                   </el-button>
                 </span>
@@ -100,10 +100,10 @@
           <el-form-item label="活动区域" v-if="show_sub_select">
             <el-select v-model="form.region" placeholder="请选择活动区域">
               <el-option
-                :label="item.label"
-                :value="item.id"
                 v-for="(item,index) in tree_data"
                 :key="index"
+                :label="item.label"
+                :value="item.id"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -128,89 +128,127 @@
           <el-button type="primary" @click="dialogBtn(4)">确 认</el-button>
         </div>
       </el-dialog>
+      <!-- 修改 -->
+      <el-dialog title="修改地址" :visible.sync="flag_dialog_visible" width="30%">
+        <el-form>
+          <el-form-item label="活动名称" class="flex">
+            <el-input v-model="form.modify" autocomplete="off" placeholder="请输入活动名称"></el-input>
+          </el-form-item>
+          <el-form-item label="图标设置" class="flex">
+            <el-upload
+              class="avatar-uploader"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="modifys(1)">取 消</el-button>
+          <el-button type="primary" @click="modifys(2)">确 认</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { getProductCategoryList,getProductCategoryCreate } from "@/api/product"
+import {
+  getProductCategoryList,
+  getProductCategoryCreate,
+  getProductCategoryUpdate,
+  getProductCategoryDelete,
+} from "@/api/product";
 let id = 1000;
 export default {
   name: "import",
   computed: {
-    ...mapGetters(["name"])
+    ...mapGetters(["name"]),
   },
   data() {
-    const data = [
-      {
-        id: 1,
-        label: "一级 1",
-        show: false,
-        children: [
-          {
-            id: 4,
-            label: "二级 1-1",
-            show: true,
-            img: "",
-            children: [
-              {
-                id: 9,
-                label: "三级 1-1-1",
-                img: "",
-                show: false
-              },
-              {
-                id: 10,
-                label: "三级 1-1-2",
-                img: "",
-                show: false
-              }
-            ]
-          }
-        ]
-      }
-    ];
     return {
       checked_style1: false,
       checked_style2: false,
       form: {
         parent_name: "",
         region: "",
-        sub_name: ""
+        sub_name: "",
+        modify: "", // 修改
       },
       show_sub_select: true,
       imageUrl: "",
       show_dialog_parent_visible: false,
       show_dialog_sub_visible: false,
-      tree_data: JSON.parse(JSON.stringify(data)),
-      tree_data_sub: []
+      flag_dialog_visible: false,
+      tree_data: [],
+      tree_data_sub: [],
     };
   },
-  created(){
+  created() {
     this.getProductCategoryLists();
   },
   methods: {
-    async getProductCategoryLists(){
+    async getProductCategoryLists() {
       var token = document.cookie.split(";")[0].split("=")[1];
       var data = {
         access_token: token,
-      }
+      };
       var res = await getProductCategoryList(data);
-      console.log(res);
+      for (var k in res.response_data.items) {
+        var children = [];
+        if (res.response_data.items[k].childes) {
+          for (var n in res.response_data.items[k].childes) {
+            var newChild = JSON.parse(
+              JSON.stringify(res.response_data.items[k].childes[n]).replace(
+                /name/g,
+                "label"
+              )
+            );
+            children.push(newChild);
+          }
+          res.response_data.items[k].childes = children;
+        }
+        var newObj = JSON.parse(
+          JSON.stringify(res.response_data.items[k])
+            .replace(/name/g, "label")
+            .replace(/childes/g, "children")
+        );
+        this.tree_data.push(newObj);
+      }
     },
-    async getProductCategoryCreates(type){
-      console.log(this.form.parent_name)
+    async getProductCategoryCreates(type) {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var name = "";
+      if(type==0){
+        name = this.form.parent_name
+      }else{
+        name = this.form.sub_name
+      }
+      var data = {
+        access_token: token,
+        name: name,
+        parent_id: type,
+      };
+      var res = await getProductCategoryCreate(data);
+      this.tree_data = []
+      this.getProductCategoryLists()
+    },
+    async getProductCategoryUpdates() {
       var token = document.cookie.split(";")[0].split("=")[1];
       var data = {
         access_token: token,
-        name: this.form.parent_name,
-        parent_id: type 
-      }
-      var res = await getProductCategoryCreate(data);
-      console.log(res);
+        id: this.tree_data_sub.id,
+        name: this.form.modify,
+      };
+      var res = await getProductCategoryUpdate(data);
+      this.tree_data = []
+      this.getProductCategoryLists();
     },
-    
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -233,23 +271,26 @@ export default {
       }
       data.children.push(newChild);
     },
-    remove(node, data) {
-      const parent = node.parent;
-      const children = parent.data.children || parent.data;
-      const index = children.findIndex(d => d.id === data.id);
-      children.splice(index, 1);
+    async remove(mas) {
+      var token = document.cookie.split(";")[0].split("=")[1];
+      var data = {
+        access_token: token,
+        id: mas.id,
+      };
+      var res = await getProductCategoryDelete(data);
+      this.tree_data = [];
+      this.getProductCategoryLists();
     },
     addNodeBtn(type, data) {
       if (type == 1) {
         this.show_dialog_parent_visible = true;
-        this.getProductCategoryCreates(0)
       } else if (type == 2) {
         this.show_sub_select = true;
         this.show_dialog_sub_visible = true;
       } else if (type == 3) {
         this.tree_data_sub = data;
-        this.show_sub_select = false;
-        this.show_dialog_sub_visible = true;
+        this.flag_select = false;
+        this.flag_dialog_visible = true;
       }
     },
     dialogBtn(type, tree_data = this.tree_data) {
@@ -257,39 +298,24 @@ export default {
         this.show_dialog_parent_visible = false;
       } else if (type == 2) {
         // 确定
-        tree_data.push({
-          label: this.form.parent_name,
-          children: []
-        });
+        this.getProductCategoryCreates(0);
         this.show_dialog_parent_visible = false;
       } else if (type == 3) {
         this.show_dialog_sub_visible = false;
       } else if (type == 4) {
-        console.log(this.form.region);
-        this.getProductCategoryCreates(4)
-        // if (this.show_sub_select) {
-        //   if (this.form.region != "" && this.form.sub_name != "") {
-        //     tree_data.map(item => {
-        //       if (item.id == this.form.region) {
-        //         item.children.push({
-        //           id: id++,
-        //           show: true,
-        //           label: this.form.sub_name,
-        //           img: "",
-        //           children: []
-        //         });
-        //       }
-        //     });
-        //   }
-        // } else {
-        //   if (this.form.sub_name != "") {
-        //     this.append(this.tree_data_sub, this.form.sub_name);
-        //   }
-        // }
+        this.getProductCategoryCreates(this.form.region);
         this.show_dialog_sub_visible = false;
       }
-    }
-  }
+    },
+    modifys(type) {
+      if (type == 1) {
+        this.flag_dialog_visible = false;
+      } else if (type == 2) {
+        this.getProductCategoryUpdates();
+        this.flag_dialog_visible = false;
+      }
+    },
+  },
 };
 </script>
 

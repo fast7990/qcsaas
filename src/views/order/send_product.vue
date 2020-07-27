@@ -1,35 +1,103 @@
-<!--
- * @Author: [hsp]
- * @Date: 2020-06-24 16:09:50
- * @LastEditors: [hsp]
- * @LastEditTime: 2020-06-24 17:29:19
- * @Description: 
---> 
 <template>
   <div class="page-container">
-    <div>asdsad</div>
+    <div class="head">
+      <el-button type="success">下载模板</el-button>
+      <el-button type="primary">导入发货订单</el-button>
+    </div>
+    <div class="con">
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column label="日期" width="120">
+          <template slot-scope="scope">{{ scope.row.date }}</template>
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120"></el-table-column>
+        <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
+        <template slot="empty">
+          <div>
+            暂无商品记录，请
+            <el-button @click="importProduct(1)" type="text">导入发货订单</el-button>
+          </div>
+        </template>
+      </el-table>
+    </div>
+    <div class="delete">
+      <div class="left">
+        <el-button>移除记录</el-button>
+        <p>移除勾选的发货记录，将不纳入批量发货处理</p>
+      </div>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size="100"
+          layout="total, prev, pager, next"
+          :total="1000"
+        ></el-pagination>
+      </div>
+    </div>
+    <div class="foot"> 
+      <el-button>确认发货</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   name: "send_product",
-  computed: {
-    ...mapGetters(["name"])
+  data(){
+    return{
+      tableData:[],
+      currentPage: 1 
+    }
+  },
+  methods:{
+    handleSelectionChange(){
+
+    },
+    handleSizeChange(){},
+    handleCurrentChange(){}
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.page {
-  &-container {
-    margin: 30px;
+.page-container {
+  margin: 0 30px;
+}
+.delete{
+  width: 100%;
+  height: 80px;
+  border-bottom: 1px solid #ccc;
+  display: flex;  
+  justify-content: space-between;
+  align-items: center;
+  .left{
+    display: flex;
+    align-items: center;
+    color: #666;  
+    font-size: 12px;
+    p{
+      margin-left: 10px;
+      width: 300px;
+    }
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
+  .block{
+    .demonstration{
+      font-size: 12px;
+    }
   }
+}
+.foot{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 </style>

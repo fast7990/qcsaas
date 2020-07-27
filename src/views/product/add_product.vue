@@ -166,7 +166,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="*售价：">
-            <el-input placeholder="请输入售价" v-model="form.value">
+            <el-input placeholder="请输入售价" v-model="form.price">
               <template slot="append">￥</template>
             </el-input>
           </el-form-item>
@@ -175,7 +175,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="*重量：">
-            <el-input placeholder="请输入重量" v-model="form.value">
+            <el-input placeholder="请输入重量" v-model="form.weight">
               <template slot="append">kg</template>
             </el-input>
           </el-form-item>
@@ -184,7 +184,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="*库存：">
-            <el-input placeholder="请输入库存" v-model="form.value">
+            <el-input placeholder="请输入库存" v-model="form.stock">
               <template slot="append">kg</template>
             </el-input>
           </el-form-item>
@@ -209,7 +209,7 @@
               <el-radio :label="2" class="flex flex--align-items--center">
                 <div class="flex flex--align-items--center">
                   <p style="margin-right: 10px;">使用模板</p>
-                  <el-select v-model="form.value" placeholder="请选择">
+                  <el-select v-model="form.template" placeholder="请选择">
                     <el-option
                       v-for="item in temp_logfee_options"
                       :key="item.value"
@@ -226,14 +226,14 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="市场价：">
-            <el-input placeholder="请输入市场价" v-model="form.value"></el-input>
+            <el-input placeholder="请输入市场价" v-model="form.market"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="商品编码：">
-            <el-input placeholder="请输入商品编码" v-model="form.value"></el-input>
+            <el-input placeholder="请输入商品编码" v-model="form.code"></el-input>
             <span style="font-size: 14px;color: #cccccc;">商户若有自己的编码管理可录入编码</span>
           </el-form-item>
         </el-col>
@@ -294,22 +294,22 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="9">
           <el-form-item label="预售：">
             <el-switch v-model="presale_switch" active-color="#2D8CF0" inactive-color="#CCCCCC"></el-switch>
             <div class="flex flex--align-items--center">
               <div style="margin-right: 10px;">全款预售</div>
-              <el-date-picker v-model="uppro_date" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker v-model="pre_sale" type="date" placeholder="选择日期" ></el-date-picker>
             </div>
             <div style="font-size: 14px;color: #CCCCCC;">只允许设置3~90天内的发货时间</div>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="10">
           <el-form-item label="限购：">
             <el-switch v-model="xiangou_switch" active-color="#2D8CF0" inactive-color="#CCCCCC"></el-switch>
-            <el-radio-group v-model="select_uppro_date">
+            <el-radio-group v-model="restriction">
               <el-radio
                 :label="1"
                 class="flex flex--align-items--center"
@@ -317,7 +317,7 @@
               >
                 <div class="flex flex--align-items--center">
                   <p style="margin-right: 10px;">永久限购</p>
-                  <el-input placeholder="请输入限量" v-model="form.value" maxlength="8"></el-input>
+                  <el-input placeholder="请输入限量" v-model="form.permanent_restriction" maxlength="8"></el-input>
                 </div>
               </el-radio>
               <el-radio
@@ -335,7 +335,7 @@
                       :value="item.value"
                     ></el-option>
                   </el-select>
-                  <el-input placeholder="请输入限量" v-model="form.value" maxlength="8"></el-input>
+                  <el-input placeholder="请输入限量" v-model="form.custom_restriction" maxlength="8"></el-input>
                 </div>
               </el-radio>
             </el-radio-group>
@@ -376,7 +376,7 @@ export default {
   components: { Tinymce },
   data() {
     return {
-      content: "",
+      content: "", // 富文本内容
       editorOption: {},
       dynamicTags: [],
       show_dialog_visible: false,
@@ -385,8 +385,10 @@ export default {
       add_sku_type_val: "",
       curr_select_sku_type: "",
       curr_select_sku_type_name: "",
-      select_uppro_date: "",
-      uppro_date: "", //上架
+      select_uppro_date: "", // 上架单选
+      restriction:"", // 限购单选 
+      uppro_date: "", // 自定义上架时间
+      pre_sale:"", // 全款预售时间
       presale_switch: "", //预售
       xiangou_switch: "", //限购
       options: [
@@ -410,10 +412,18 @@ export default {
         }
       ],
       form: {
-        value: "",
-        name: "",
-        status: "",
-        introduction: "",
+        value:"", // 固定运费
+        template:"", // 自定义运费 
+        price:"", // 价格
+        name: "", // 商品名称
+        status: 0, // 状态
+        introduction: "", // 简介 详情
+        weight:"", // 重量
+        stock:"", // 库存
+        market:"", // 市场价
+        code: "", // 编码
+        permanent_restriction:"", // 永久限购
+        custom_restriction:"", // 自定义限购
       },
       imageUrl: "",
       select_logfee: 1,
@@ -475,12 +485,12 @@ export default {
         name: this.form.name,
         // summary: this.from.introduction,
         category_id: 1,
-        desc: this.form.introduction,
-        price: parseInt(this.form.value),
-        weight: 0,
+        desc: this.form.introduction, 
+        price: parseFloat(this.form.price),
+        weight: this.form.weight,
         specs: [],
         sale_at: 1595260800,
-        status: this.status,
+        status: this.form.status,
         images: [
           {
             image:

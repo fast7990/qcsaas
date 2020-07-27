@@ -97,7 +97,7 @@
           :header-cell-style="{ background: '#f2f2f2' }"
           :span-method="arraySpanMethod"
         >
-          <el-table-column label="商品" width="300px">
+          <el-table-column label="商品">
             <el-row style="padding:10px 0;background:#f2f2f2">
               <el-col :span="6">订单编号：2019092309485700000001</el-col>
               <el-col :span="6">下单时间：2019-09-23 09:48:57</el-col>
@@ -182,7 +182,6 @@ export default {
   },
   methods: {
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      console.log({ row, column, rowIndex, columnIndex });
       return [1, 9];
     },
     arraySpanMethodSubTable({ row, column, rowIndex, columnIndex }) {

@@ -39,6 +39,7 @@ export function getProductCategoryList(data) {
     data
   })
 }
+
 // 添加商品分类
 export function getProductCategoryCreate(data) {
   return request({
@@ -47,7 +48,23 @@ export function getProductCategoryCreate(data) {
     data
   })
 }
+// 修改商品分类
+export function getProductCategoryUpdate(data) {
+  return request({
+    url: '/mall/product/category/update',
+    method: 'post',
+    data
+  })
+}
 
+// 删除商品分类
+export function getProductCategoryDelete(data) {
+  return request({
+    url: '/mall/product/category/delete',
+    method: 'post',
+    data
+  })
+}
 // 创建标签
 export function getProductTagCreate(data) {
   return request({
