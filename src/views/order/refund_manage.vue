@@ -80,15 +80,15 @@
           <li>操作</li>
         </ul>
         <ol>
-          <li v-for="item in refundLists" :key="item.order_number">
+          <li v-for="item in refundLists" :key="item.refund_number">
             <div class="upper">
-              <p>退款编号：{{item.order_number}}</p>
+              <p>退款编号：{{item.refund_number}}</p>
               <span>
                 订单编号：
-                <em>{{item.order_number}}</em>
+                <em>{{item.refund_number}}</em>
               </span>
               <button>退款</button>
-              <a href="javascript:;">查看详情</a>
+              <a href="javascript:;" @click="orderRefundDetails(item.refund_number)">查看详情</a>
             </div>
             <div class="lower">
               <div class="commodity">
@@ -154,13 +154,10 @@ export default {
       refundLists: [
         {
           order_number: "AF123456789",
+          refund_number: "TK423456789",
           created_at: "2020-07-01 10:00:04",
-          pay_type: "1",
+          type: "1",
           status: "1",
-          logistics_company: "龙门镖局",
-          logistics_name: "王富贵",
-          logistics_mobile: "18999999999",
-          logistics_fee: "1000",
           amount: "25800",
           products: [
             {
@@ -170,9 +167,7 @@ export default {
               name: "茶壶",
               spec: "紫砂壶",
               num: "1",
-              orig_price: "11800",
-              total_amount: "11800",
-              pay_amount: "11800",
+              refund_amount: "11800",
               product_id: "100123012",
             },
             {
@@ -181,11 +176,39 @@ export default {
                 "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
               name: "绿茶",
               spec: "100g",
-              num: "2",
-              orig_price: "8000",
-              total_amount: "16000",
-              pay_amount: "14000",
+              num: "1",
+              refund_amount: "14000",
               product_id: "100124112",
+            },
+          ],
+        },
+        {
+          order_number: "AF323454789",
+          refund_number: "TK8923454789",
+          created_at: "2020-07-01 10:00:04",
+          type: "1",
+          status: "1",
+          amount: "1200",
+          products: [
+            {
+              id: "1890002456",
+              thumb:
+                "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+              name: "牙刷",
+              spec: "3支装",
+              num: "1",
+              refund_amount: "1000",
+              product_id: "200123012",
+            },
+            {
+              id: "1890002967",
+              thumb:
+                "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+              name: "铅笔",
+              spec: "2B",
+              num: "2",
+              refund_amount: "200",
+              product_id: "300124112",
             },
           ],
         },
@@ -212,7 +235,7 @@ export default {
       } else if (this.total === 5) {
         statesTit = "已拒绝";
       }
-      return statesTit
+      return statesTit;
     },
   },
   methods: {
@@ -225,6 +248,14 @@ export default {
       console.log(res.response_data);
       this.total = res.response_data.total;
       // this.refundLists = res.response_data.items;
+    },
+    orderRefundDetails(msg) {
+      this.$router.push({
+        path: "order/refundDetails",
+        query: {
+          refund_number: msg,
+        },
+      });
     },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       return [1, 9];
@@ -299,7 +330,7 @@ export default {
         }
         & > span {
           em {
-            color: #409eff;
+            color: #0066ff;
             font-style: normal;
           }
         }
@@ -319,7 +350,7 @@ export default {
           right: 0;
           top: 0;
           margin-top: 8px;
-          color: #409eff;
+          color: #0066ff;
         }
       }
       .lower {
@@ -394,7 +425,7 @@ export default {
             width: 100%;
             height: 20px;
             text-align: center;
-            color: #409eff;
+            color: #0066ff;
             margin-top: 20px;
           }
           a {
@@ -403,7 +434,7 @@ export default {
             width: 100%;
             height: 30px;
             text-align: center;
-            color: #409eff;
+            color: #0066ff;
           }
         }
       }

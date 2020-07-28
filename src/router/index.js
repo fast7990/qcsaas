@@ -186,6 +186,14 @@ export const constantRoutes = [{
     meta: {
       title: '订单管理'
     }
+  },{
+    path: 'order/details',
+    name: 'order_details',
+    component: () => import('@/components/order/orderDetails'),
+  },{
+    path: 'order/refundDetails',
+    name: 'order_refund_details',
+    component: () => import('@/components/order/orderRefundDetails'),
   }, {
     path: 'send_product',
     name: 'send_product',

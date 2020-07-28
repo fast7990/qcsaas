@@ -45,36 +45,34 @@
           <li class="wid4">商家回复</li>
         </ol>
         <ul>
-          <li>
+          <li v-for="item in commentList" :key="item.id">
             <div class="upper">
               <p>
-                退款编号：
-                <em>2019092309485700000001</em>
+                商品信息:
+                <em>{{item.product.name}}</em>
               </p>
               <p>
                 订单编号：
-                <em>2019092309485700000001</em>
+                <em>{{item.order.order_number}}</em>
               </p>
             </div>
             <ul class="lower">
               <li class="wid8 content">
                 <div>
-                  <p>好啊!好啊!好啊!好啊!好啊!好啊!好啊!好啊!好啊!好啊!好啊!好啊!</p>
-                  <a href="javascript:;">详情</a>
+                  <p>{{item.content}}</p>
+                  <a href="javascript:;" @click="getComment(item.content,item.product.thumb)">详情</a>
                 </div>
-                <img
-                  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595846019198&di=6216fab3f6a0c73657ad6c8b4c7f0a18&imgtype=0&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fzhidao%2Fwh%3D450%2C600%2Fsign%3Dbbba1da0d60735fa91a546bdab612385%2F9825bc315c6034a84e7d073ac9134954082376e9.jpg"
-                />
+                <img :src="item.product.thumb" />
               </li>
               <li class="wid2 date">
-                <p>2019-09-24 12:41:12</p>
+                <p>{{item.reply_at}}</p>
               </li>
               <li class="wid2 buyer">
-                <h3>蔡徐坤</h3>
-                <p>1569373434343</p>
+                <h3>{{item.order.logistics_name}}</h3>
+                <p>{{item.order.logistics_mobile}}</p>
               </li>
               <li class="wid4 reply">
-                <p>回复</p>
+                <p @click="getContentClick(item.id)">回复</p>
               </li>
             </ul>
           </li>
@@ -85,25 +83,47 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage"
-          :page-size="100"
+          :page-size="10"
           layout="total, prev, pager, next"
-          :total="1000"
+          :total="total "
         ></el-pagination>
       </div>
     </div>
+    <!-- 评价详情 -->
+    <el-dialog :visible.sync="dialogDetail" width="30%">
+      <p>{{content}}</p>
+      <img :src="src" width="100px"/>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogBtn">确 认</el-button>
+      </div>
+    </el-dialog>
+    <!-- 回复 -->
+    <el-dialog title="标签编辑" :visible.sync="dialogItem" width="30%">
+      <el-form>
+        <el-form-item label="标签名称:" class="flex">
+          <el-input type="textarea" v-model="nameContent"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogItemBtn(1)">取 消</el-button>
+        <el-button type="primary" @click="dialogItemBtn(2)">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
+import { getOrderCommentList, getOrderCommentReply } from "@/api/order";
 export default {
   name: "comment",
-  computed: {
-    ...mapGetters(["name"]),
-  },
   data() {
     return {
+      dialogDetail: false,
+      content: "",
+      src: "",
+      id: 0,
+      dialogItem: false,
+      nameContent: "",
       label_form: {},
       ss: "123",
       tableDataProduct: [
@@ -113,9 +133,78 @@ export default {
           address: "上海市普陀区金沙江路 1518 弄",
         },
       ],
+      currentPage: 0,
+      commentList: [
+        {
+          id: "1890002321",
+          content: "茶壶不隔热，烫手还烫嘴",
+          reply: "烫手肯定烫嘴啊",
+          reply_at: "2020-07-03 10:00:04",
+          created_at: "2020-07-01 10:00:04",
+          product: {
+            thumb:
+              "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+            name: "茶壶",
+            spec: "紫砂壶",
+          },
+          order: {
+            order_number: "AF123456789",
+            logistics_name: "王富贵",
+            logistics_mobile: "18999999999",
+          },
+        },
+      ],
+      total: 123,
     };
   },
+  created() {
+    this.getOrderCommentLists();
+    this.getOrderCommentReplys();
+  },
   methods: {
+    async getOrderCommentLists() {
+      // var token = document.cookie.split(";")[0].split("=")[1];
+      // var data = {
+      //   access_token: token,
+      // };
+      // var res = await getOrderCommentList(data);
+      // this.commentList = res.response_data.items;
+      // this.commentTotal = res.response_data.total;
+    },
+    async getOrderCommentReplys() {
+      // var token = document.cookie.split(";")[0].split("=")[1];
+      // var data = {
+      //   access_token: token,
+      //   id: this.id,
+      //   reply: this.nameContent,
+      // };
+      // var res = await getOrderCommentReply(data);
+      // this.getOrderCommentLists();
+    },
+    getComment(c, i) {
+      this.dialogDetail = true;
+      this.content = c;
+      this.src = i;
+    },
+    dialogBtn() {
+      this.dialogDetail = false;
+    },
+    getContentClick(id) {
+      this.id = id
+      this.dialogItem = true;
+    },
+    dialogItemBtn(type) {
+      if (type == 1) {
+        this.dialogItem = false;
+      } else {
+        if(this.nameContent){
+          this.getOrderCommentReplys();
+          this.dialogItem = false;
+        }else{
+          this.$message.error('内容不能为空');
+        }
+      }
+    },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       return [1, 9];
     },
@@ -127,6 +216,8 @@ export default {
       // 表格排序
       console.log(e);
     },
+    handleSizeChange() {},
+    handleCurrentChange() {},
   },
 };
 </script>
@@ -275,10 +366,10 @@ p {
     }
   }
 }
-.block{
+.block {
   width: 100%;
   margin-top: 15px;
-  .el-pagination{
+  .el-pagination {
     width: 500px;
     float: right;
   }

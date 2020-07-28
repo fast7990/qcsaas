@@ -80,44 +80,25 @@
                 @click="dialogFormVisible=true"
               >新增客户</el-button>
               <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="500px">
-                <el-form
-                  ref="label_form"
-                  :model="ruleForm"
-                  status-icon
-                  :rules="rules"
-                  class="demo-ruleForm"
-                >
-                  <el-form-item label="微信昵称:" class="flex">
-                    <el-input
-                      v-model="label_form.name"
-                      type="text"
-                      placeholder="请输入内容"
-                      class="input-box"
-                    />
+                <el-form status-icon :rules="rules" class="demo-ruleForm">
+                  <el-form-item label="*手机号:" class="flex">
+                    <el-input v-model="mobile" type="text" placeholder="请输入内容" class="input-box" />
                   </el-form-item>
-                  <el-form-item label="微信昵s称:" class="flex">
-                    <el-input
-                      v-model="label_form.name"
-                      type="text"
-                      placeholder="请输入内容"
-                      class="input-box"
-                    />
+                  <el-form-item label="*姓名:" class="flex" style="margin-left: 15px">
+                    <el-input v-model="name" type="text" placeholder="请输入内容" class="input-box" />
                   </el-form-item>
-                  <el-form-item label="微信昵称:" class="flex">
-                    <el-input
-                      v-model="label_form.name"
-                      type="text"
-                      placeholder="请输入内容"
-                      class="input-box"
-                    />
+                  <el-form-item label="微信号:" class="flex" style="margin-left: 5px">
+                    <el-input v-model="wechat" type="text" placeholder="请输入内容" class="input-box" />
                   </el-form-item>
-                  <el-form-item label="微信昵称:" class="flex">
-                    <el-input
-                      v-model="label_form.name"
-                      type="text"
-                      placeholder="请输入内容"
-                      class="input-box"
-                    />
+                  <el-form-item label="会员等级:" class="flex">
+                    <el-select v-model="value" placeholder="无">
+                      <el-option
+                        v-for="item in grade"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -125,11 +106,28 @@
                   <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
                 </div>
               </el-dialog>
-              <el-button plain>打标签</el-button>
-              <el-button plain>修改积分</el-button>
-              <el-button plain>送券</el-button>
-              <el-button plain>发短信</el-button>
-              <el-button plain @click="open">加入黑名单</el-button>
+              <el-button plain style="margin-left: 10px" @click="labelClick">打标签</el-button>
+              <el-dialog title="选择标签" :visible.sync="dialogTableVisible"  width="500px">
+                <el-form>
+                  <el-form-item label="*手机号:" class="flex">
+                    <el-input placeholder="请输入标签名称" v-model="label"></el-input>
+                    {{label}}
+                  </el-form-item>
+                </el-form>
+                <el-table :data="gridData">
+                  <el-table-column type="selection" width="50"></el-table-column>
+                  <el-table-column property label="标签名称" align="center"></el-table-column>
+                  <el-table-column property label="标签说明" align="center"></el-table-column>
+                </el-table>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="dialogFormVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                </div>
+              </el-dialog>
+              <el-button plain style="margin-left: 10px">修改积分</el-button>
+              <el-button plain style="margin-left: 10px">送券</el-button>
+              <el-button plain style="margin-left: 10px">发短信</el-button>
+              <el-button plain style="margin-left: 10px" @click="open">加入黑名单</el-button>
             </el-col>
           </el-row>
         </div>
@@ -179,48 +177,76 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { userList, userAddBlackList } from "@/api/user";
 export default {
   name: "user",
-  computed: {
-    ...mapGetters(["name"])
-  },
+
   data() {
     return {
+      // 新增客户
+      mobile: "", // 手机号
+      name: "", // 用户名
+      wechat: "", // 微信号
+      grade: [
+        {
+          value: "选项1",
+          label: "无",
+        },
+        {
+          value: "选项2",
+          label: "倔强青铜",
+        },
+        {
+          value: "选项3",
+          label: "无畏白银",
+        },
+        {
+          value: "选项4",
+          label: "永恒钻石",
+        },
+        {
+          value: "选项5",
+          label: "最强王者",
+        },
+      ],
+      // 打标签
+      gridData: [],
+      label: "",
       value1: "",
       value2: "",
-      ruleForm: "",
       rules: "",
+      // dialog
       dialogFormVisible: false,
+      dialogTableVisible: false,
       total_num: 100,
       tableData: [],
       order_type_list: [],
       label_form: {},
+
       selects: [],
       options: [
         {
           value: "选项1",
-          label: "黄金糕"
+          label: "黄金糕",
         },
         {
           value: "选项2",
-          label: "双皮奶"
+          label: "双皮奶",
         },
         {
           value: "选项3",
-          label: "蚵仔煎"
+          label: "蚵仔煎",
         },
         {
           value: "选项4",
-          label: "龙须面"
+          label: "龙须面",
         },
         {
           value: "选项5",
-          label: "北京烤鸭"
-        }
+          label: "北京烤鸭",
+        },
       ],
-      value: ""
+      value: "",
     };
   },
   created() {
@@ -240,7 +266,7 @@ export default {
       if (this.selects.length == 0) {
         this.$message({
           message: "请勾选客户",
-          type: "warning"
+          type: "warning",
         });
       } else {
         this.$confirm(
@@ -251,20 +277,20 @@ export default {
           {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
-            type: "warning"
+            type: "warning",
           }
         )
           .then(() => {
             this.$message({
               type: "success",
-              message: "加入黑名单成功"
+              message: "加入黑名单成功",
             });
             this.getAddBlackList();
           })
           .catch(() => {
             this.$message({
               type: "info",
-              message: "已取消加入"
+              message: "已取消加入",
             });
           });
       }
@@ -272,27 +298,38 @@ export default {
     async getAddBlackList() {
       var ids = [];
       if (this.selects.length > 0) {
-        this.selects.forEach(v => {
+        this.selects.forEach((v) => {
           ids.push(v.id);
         });
       }
       var data = {
         access_token: document.cookie.split(";")[0].split("=")[1],
-        ids: ids
+        ids: ids,
       };
       var res = await userAddBlackList(data);
       this.getUserList();
     },
-    customerDetails(id){
-      console.log(id)
+    // 打标签
+    labelClick() {
+      if (this.selects) {
+        this.dialogTableVisible = true;
+      } else {
+        this.$message({
+          message: "请勾选后重试",
+          type: "warning",
+        });
+      }
+    },
+    customerDetails(id) {
+      console.log(id);
       this.$router.push({
         path: "/user/details",
-        query:{
-          id:id
-        }
-      })
-    }
-  }
+        query: {
+          id: id,
+        },
+      });
+    },
+  },
 };
 </script>
 
@@ -303,6 +340,7 @@ export default {
 }
 .input-box {
   width: 300px;
+  margin-left: 10px;
 }
 .bg {
   width: 100%;
