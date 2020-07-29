@@ -4,14 +4,13 @@
       <el-row :gutter="20">
         <el-col>
           <el-button type="success" size="medium">下载模板</el-button>
-          <el-button type="primary" size="medium">导入商品</el-button>
+          <el-button type="primary" size="medium" @click="importProduct(2)">导入商品</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="table-box">
       <el-table
         :data="tableData"
-        height="600"
         :border="false"
         style="width: 100%"
         @selection-change="handleSelectionChange"
@@ -25,7 +24,7 @@
         <el-table-column prop="address" label="市场价"></el-table-column>
         <el-table-column prop="address" label="库存" sortable></el-table-column>
         <el-table-column prop="address" label="SKU数量" sortable></el-table-column>
-        <el-table-column prop="address" label="操作" width="90">
+        <el-table-column label="操作" width="90">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text">添加图片</el-button>
           </template>
@@ -39,7 +38,7 @@
       </el-table>
       <div class="flex flex--justify-content--space-between" style="padding-top:10px;">
         <div>
-          <el-button type="success" size="small">移除商品</el-button>
+          <el-button type="danger" size="small">移除商品</el-button>
           <span style="color:#999999;margin-left:10px;">移除勾选的商品，将不被导入商品库</span>
         </div>
         <div class="flex flex--align-items--center">
@@ -49,11 +48,7 @@
       </div>
     </div>
     <!-- 弹框 -->
-    <el-dialog
-      title="批量导入"
-      :visible.sync="show_dialog_visible"
-      width="30%"
-    >
+    <el-dialog title="批量导入" :visible.sync="show_dialog_visible" width="30%">
       <div>
         <div class="flex flex--align-items--center">
           <p style="width:80px;">上传模版：</p>
@@ -65,8 +60,8 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="importProduct(3)">取 消</el-button>
-        <el-button type="primary" @click="importProduct(2)">导 入</el-button>
+        <el-button @click="importProduct(4)">取 消</el-button>
+        <el-button type="primary" @click="importProduct(3)">导 入</el-button>
       </span>
     </el-dialog>
   </div>
@@ -78,13 +73,20 @@ import { mapGetters } from "vuex";
 export default {
   name: "product",
   computed: {
-    ...mapGetters(["name"])
+    ...mapGetters(["name"]),
   },
   data() {
     return {
       show_dialog_visible: false,
       total_num: 100,
-      tableData: []
+      tableData: [
+        {
+          selection: "1123",
+          date: "2020-09-01",
+          name: "茶叶树",
+          address: "xxxx",
+        },
+      ],
     };
   },
   mounted() {},
@@ -102,15 +104,17 @@ export default {
       if (type == 1) {
         this.show_dialog_visible = true;
       } else if (type == 2) {
-        this.show_dialog_visible = false;
+        this.show_dialog_visible = true;
       } else if (type == 3) {
+        this.show_dialog_visible = false;
+      } else if (type == 4) {
         this.show_dialog_visible = false;
       }
     },
     handleClose(done) {
       done();
-    }
-  }
+    },
+  },
 };
 </script>
 

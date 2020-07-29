@@ -32,8 +32,8 @@
               :expand-on-click-node="false"
             >
               <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{ data.label }}</span>
-                <span>
+                <span style="font-size: 12px;">{{ data.label }}</span>
+                <span v-if="data.children">
                   <el-button type="text" size="mini" @click="() => addNodeBtn(3,data)">
                     <i class="el-icon-edit-outline" style="font-size:16px;"></i>
                   </el-button>
@@ -62,7 +62,7 @@
               <div>
                 <el-checkbox v-model="checked_style1">列表样式</el-checkbox>
               </div>
-              <p class="el-checkbox__label">更加适合三级商品分类及分类数量较多的情况</p>
+              <p class="el-checkbox__labels">更加适合三级商品分类及分类数量较多的情况</p>
             </el-col>
             <el-col
               :span="12"
@@ -76,9 +76,12 @@
               <div>
                 <el-checkbox v-model="checked_style2">列表样式</el-checkbox>
               </div>
-              <p class="el-checkbox__label">更加适合一二级商品分类及分类数量较少的情况</p>
+              <p class="el-checkbox__labels">更加适合一二级商品分类及分类数量较少的情况</p>
             </el-col>
           </el-row>
+        </div>
+        <div style="width:100%;text-align: center;margin-top: 100px;">
+          <el-button type="primary">保存</el-button>
         </div>
       </div>
       <!-- 增加父级 -->
@@ -224,10 +227,10 @@ export default {
     async getProductCategoryCreates(type) {
       var token = document.cookie.split(";")[0].split("=")[1];
       var name = "";
-      if(type==0){
-        name = this.form.parent_name
-      }else{
-        name = this.form.sub_name
+      if (type == 0) {
+        name = this.form.parent_name;
+      } else {
+        name = this.form.sub_name;
       }
       var data = {
         access_token: token,
@@ -235,8 +238,8 @@ export default {
         parent_id: type,
       };
       var res = await getProductCategoryCreate(data);
-      this.tree_data = []
-      this.getProductCategoryLists()
+      this.tree_data = [];
+      this.getProductCategoryLists();
     },
     async getProductCategoryUpdates() {
       var token = document.cookie.split(";")[0].split("=")[1];
@@ -246,7 +249,7 @@ export default {
         name: this.form.modify,
       };
       var res = await getProductCategoryUpdate(data);
-      this.tree_data = []
+      this.tree_data = [];
       this.getProductCategoryLists();
     },
     handleAvatarSuccess(res, file) {
@@ -343,6 +346,13 @@ export default {
   .right {
     flex: 1;
   }
+}
+.el-checkbox__labels {
+  width: 200px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

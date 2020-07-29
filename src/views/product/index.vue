@@ -1,16 +1,16 @@
 <template>
   <div class="pages white-bg">
-    <el-form ref="form" :model="form" label-width="120px">
+    <el-form>
       <!-- line -->
-      <el-row :gutter="20">
+      <el-row>
         <el-col :span="6">
           <el-form-item label="商品名称/编码:">
-            <el-input v-model="form.name" />
+            <el-input v-model="tradeName" style="width: 200px" placeholder="请输入内容" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="状态:">
-            <el-select v-model="form.status" placeholder="请选择">
+            <el-select v-model="state" placeholder="请选择">
               <el-option
                 v-for="item in state_options"
                 :key="item.value"
@@ -22,14 +22,21 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="商品分类:">
-            <el-input v-model="form.name" />
+            <el-select v-model="shopClassification" placeholder="请选择">
+              <el-option
+                v-for="item in classification_options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="商品类型:">
-            <el-select v-model="form.value" placeholder="请选择">
+            <el-select v-model="shopType" placeholder="请选择">
               <el-option
-                v-for="item in product_type_options"
+                v-for="item in shopType_options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -39,32 +46,29 @@
         </el-col>
       </el-row>
       <!-- line2 -->
-      <el-row :gutter="20">
-        <el-col :span="10">
+      <el-row>
+        <el-col :span="7">
           <el-form-item label="创建日期:">
             <el-date-picker
-              v-model="form.date"
+              v-model="establishDate"
               type="daterange"
-              align="right"
-              unlink-panels
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              :picker-options="pickerOptions"
             ></el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="价格:">
-            <el-row>
-              <el-col :span="11">
-                <el-input v-model="form.name" type="text" />
+            <el-row :gutter="12">
+              <el-col :span="4">
+                <el-input v-model="priceOne" style="width: 100px" type="text" />
               </el-col>
-              <el-col :span="2" style="text-align: center;">
+              <el-col :span="3" style="text-align: center;margin-left: 30px">
                 <span>-</span>
               </el-col>
-              <el-col :span="11">
-                <el-input v-model="form.name" type="text" />
+              <el-col :span="4">
+                <el-input v-model="priceTwo" style="width: 100px" type="text" />
               </el-col>
             </el-row>
           </el-form-item>
@@ -134,11 +138,13 @@ export default {
   data() {
     return {
       total_num: 10,
-      form: {
-        name: "",
-        status: "",
-        date: "",
-      },
+      tradeName: "", // 商品名称
+      state: "", // 状态
+      shopClassification: "", // 商品分类
+
+      establishDate: "", // 创建时间
+      priceOne:"", // 价格1
+      priceTwo:"", // 价格2
       tableData: [],
       pickerOptions: {
         shortcuts: [
@@ -171,7 +177,7 @@ export default {
           },
         ],
       },
-      product_type_options: [
+      shopType_options: [
         {
           value: "0",
           label: "全部",
@@ -184,7 +190,7 @@ export default {
           value: "2",
           label: "预售商品",
         },
-      ],
+      ], // 商品类型选择器数据
       state_options: [
         {
           value: "0",
@@ -194,15 +200,17 @@ export default {
           value: "1",
           label: "上架",
         },
+      ], // 状态选择器数据
+      classification_options: [
         {
-          value: "2",
-          label: "下架",
+          value: "0",
+          label: "全部",
         },
         {
-          value: "3",
-          label: "草稿",
+          value: "1",
+          label: "上架",
         },
-      ],
+      ], // 商品分类选择器数据
       multipleSelection: "",
     };
   },
@@ -237,9 +245,12 @@ export default {
     },
     // 编辑
     handleClick(row) {
-      this.$router.push({ path: "/product/add_product" ,query:{
-        details: row
-      }});
+      this.$router.push({
+        path: "/product/add_product",
+        query: {
+          details: row,
+        },
+      });
     },
     topBtnClick(type) {
       if (type == 1) {
@@ -258,7 +269,7 @@ export default {
         var ids = [];
         mult.forEach((v, i) => {
           ids.push(v.id);
-          if(v.status == "下架"){
+          if (v.status == "下架") {
             var res = getProductOnShelf({
               access_token: token,
               ids: ids,
@@ -290,7 +301,7 @@ export default {
         var ids = [];
         mult.forEach((v, i) => {
           ids.push(v.id);
-          if(v.status == "上架"){
+          if (v.status == "上架") {
             var res = getProductOffShelf({
               access_token: token,
               ids: ids,

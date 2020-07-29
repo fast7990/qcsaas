@@ -9,11 +9,16 @@
   <div class="pages">
     <div class="page-container">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="4">
           <el-button type="primary" @click="addLabelBtn">新增标签</el-button>
         </el-col>
         <el-col :span="8" :offset="10">
-          <el-input placeholder="请输入内容" v-model="search_val" class="input-with-select">
+          <el-input
+            placeholder="请输入内容"
+            v-model="search_val"
+            style="width: 450px"
+            class="input-with-select"
+          >
             <el-button
               style="background:#2D8CF0;color:#ffffff;"
               slot="append"
@@ -192,7 +197,7 @@ export default {
     return {
       total_num: 10,
       multipleSelection: [],
-      search_val: "",
+      search_val: "", // 搜索
       dialogAddLabelVisible: false,
       dialogTableVisible: false,
       curr_type: 1,
@@ -226,6 +231,7 @@ export default {
         },
       ],
       tableDataLabelList: [],
+      ceshiList: [],
       tableDataProduct: [
         {
           date: "2016-05-03",
@@ -248,6 +254,7 @@ export default {
       var token = document.cookie.split(";")[0].split("=")[1];
       var res = await getProductTagList({
         access_token: token,
+        q: this.search_val || "",
       });
       this.tableDataLabelList = res.response_data.items;
     },
@@ -268,6 +275,7 @@ export default {
       });
       this.getProductTagLists();
     },
+
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
@@ -327,6 +335,31 @@ export default {
             message: "已取消删除",
           });
         });
+    },
+  },
+  watch: {
+    search_val: {
+      handler() {
+        Object.assign(this.ceshiList, this.tableDataLabelList);
+
+        if (timer) {
+          clearTimeout(timer);
+        }
+        if (!this.search_val) {
+          this.tableDataLabelList = this.ceshiList;
+          return;
+        }
+        var timer = setTimeout(() => {
+          var arr = [];
+          this.tableDataLabelList.forEach((val) => {
+            if (val.tag.indexOf(this.search_val) > -1) {
+              arr.push(val);
+            }
+          });
+          this.tableDataLabelList = arr;
+        }, 100);
+        console.log(this.tableDataLabelList);
+      },
     },
   },
 };

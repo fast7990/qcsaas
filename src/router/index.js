@@ -320,6 +320,10 @@ export const constantRoutes = [{
     meta: {
       title: '会员管理'
     }
+  },{
+    path: 'member/editMember',
+    name: 'edit_member',
+    component: () => import('@/views/user/editMember'),
   }, {
     path: 'integral',
     name: 'integral',

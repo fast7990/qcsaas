@@ -9,20 +9,34 @@
   <div class="blacks">
     <div class="blacks_container">
       <el-form>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="6">
             <el-form-item label="微信昵称:" class="flex">
-              <el-input type="text" placeholder="请输入内容" class="input-box" />
+              <el-input
+                type="text"
+                placeholder="请输入内容"
+                label-width="auto"
+                size="small"
+                class="input-box"
+                v-model="userName"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="手机号:" class="flex">
-              <el-input type="text" placeholder="请输入内容" class="input-box" />
+              <el-input
+                type="text"
+                placeholder="请输入内容"
+                label-width="auto"
+                size="small"
+                class="input-box"
+                v-model="mobile"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="分类:" class="flex">
-              <el-select v-model="value" placeholder="请选择">
+              <el-select v-model="classification" placeholder="全部" label-width="auto" size="small">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -34,19 +48,31 @@
           </el-col>
         </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="5">
-            <el-form-item label="拉黑日期:" class="flex">
-              <el-input placeholder="请选择日期">
-                <i slot="suffix" class="el-input__icon el-icon-date"></i>
-              </el-input>
+        <el-row style="margin-top: 20px">
+          <el-col :span="7">
+            <el-form-item label="拉黑日期:" label-width="auto" class="flex">
+              <el-date-picker
+                v-model="blockDate"
+                type="daterange"
+                size="small"
+                editable
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="获客日期:" class="flex">
-              <el-input placeholder="请选择日期">
-                <i slot="suffix" class="el-input__icon el-icon-date"></i>
-              </el-input>
+          <el-col :span="7">
+            <el-form-item label="获客日期:" label-width="auto" class="flex">
+              <el-date-picker
+                v-model="customersDate"
+                type="daterange"
+                size="small"
+                editable
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -117,26 +143,30 @@ export default {
       options: [
         {
           value: "选项1",
-          label: "黄金糕"
+          label: "黄金糕",
         },
         {
           value: "选项2",
-          label: "双皮奶"
+          label: "双皮奶",
         },
         {
           value: "选项3",
-          label: "蚵仔煎"
+          label: "蚵仔煎",
         },
         {
           value: "选项4",
-          label: "龙须面"
+          label: "龙须面",
         },
         {
           value: "选项5",
-          label: "北京烤鸭"
-        }
+          label: "北京烤鸭",
+        },
       ],
-      value: ""
+      customersDate:[],
+      blockDate:[],
+      userName:"",
+      mobile:"",
+      classification:"",
     };
   },
   created() {
@@ -147,7 +177,7 @@ export default {
       var getToken = document.cookie.split(";")[0].split("=")[1];
       var token = getToken;
       var res = await blackLists({
-        access_token: token
+        access_token: token,
       });
       this.tableData = res.response_data.items;
     },
@@ -158,7 +188,7 @@ export default {
       if (this.selects.length == 0) {
         this.$message({
           message: "请勾选客户",
-          type: "warning"
+          type: "warning",
         });
       } else {
         this.$confirm(
@@ -168,20 +198,20 @@ export default {
           "恢复确认",
           {
             confirmButtonText: "确定",
-            cancelButtonText: "取消"
+            cancelButtonText: "取消",
           }
         )
           .then(() => {
             this.$message({
               type: "success",
-              message: "成功恢复" + this.selects.length + "位客户"
+              message: "成功恢复" + this.selects.length + "位客户",
             });
             this.getRemoveBlackList();
           })
           .catch(() => {
             this.$message({
               type: "info",
-              message: "已取消恢复"
+              message: "已取消恢复",
             });
           });
       }
@@ -191,18 +221,18 @@ export default {
       var getToken = document.cookie.split(";")[0].split("=")[1];
       var token = getToken;
       if (this.selects.length > 0) {
-        this.selects.forEach(v => {
+        this.selects.forEach((v) => {
           ids.push(v.id);
         });
       }
       var data = {
         access_token: token,
-        ids: ids
+        ids: ids,
       };
       var res = await userRemoveBlackList(data);
       this.getblackList();
-    }
-  }
+    },
+  },
 };
 </script>
 
