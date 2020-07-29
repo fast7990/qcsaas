@@ -3,7 +3,7 @@
  * @Github https://github.com/weiipeng
  * @Date 2020-07-17 15:46:34
  * @LastEditors weipeng
- * @LastEditTime 2020-07-17 16:30:45
+ * @LastEditTime 2020-07-21 10:39:50
  * @Description 文本组件配置
 -->
 
@@ -34,7 +34,7 @@
           <el-input
             v-model="form.text"
             type="textarea"
-            :autosize="{ minRows: 4, maxRows: 8}"
+            :autosize="{ minRows: 4, maxRows: 8 }"
             placeholder="请输入内容"
           />
         </el-form-item>
@@ -59,7 +59,6 @@
           <el-checkbox-button label="3">下划线</el-checkbox-button>
         </el-checkbox-group>
       </div>
-
     </div>
     <div class="item">
       <b>文本对齐</b>
@@ -86,22 +85,28 @@ export default {
       single: 1,
       alignment: 1,
       fontStyle: [],
-      fontSizes: [{
-        value: '20',
-        label: '20号'
-      }, {
-        value: '18',
-        label: '18号'
-      }, {
-        value: '16',
-        label: '16号'
-      }, {
-        value: '14',
-        label: '14号'
-      }, {
-        value: '12',
-        label: '12号'
-      }],
+      fontSizes: [
+        {
+          value: '20',
+          label: '20号'
+        },
+        {
+          value: '18',
+          label: '18号'
+        },
+        {
+          value: '16',
+          label: '16号'
+        },
+        {
+          value: '14',
+          label: '14号'
+        },
+        {
+          value: '12',
+          label: '12号'
+        }
+      ],
       fontSize: '',
       form: {
         text: ''
@@ -132,17 +137,17 @@ export default {
 
 <style lang="scss" scoped>
 .item {
-    margin-bottom: 20px;
-    b {
-      padding-right: 15px;
-    }
+  margin-bottom: 20px;
+  b {
+    padding-right: 15px;
   }
-  .item-item{
-    margin-top: 15px;
-  }
-  .tips {
-    color: rgb(153, 153, 153);
-    font-size: 12px;
-    margin-top: 10px;
-  }
+}
+.item-item {
+  margin-top: 15px;
+}
+.tips {
+  color: rgb(153, 153, 153);
+  font-size: 12px;
+  margin-top: 10px;
+}
 </style>

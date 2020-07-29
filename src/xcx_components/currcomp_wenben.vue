@@ -3,15 +3,21 @@
  * @Github https://github.com/weiipeng
  * @Date 2020-07-17 15:41:00
  * @LastEditors weipeng
- * @LastEditTime 2020-07-17 18:20:15
+ * @LastEditTime 2020-07-20 19:48:45
  * @Description 文本
 -->
 
 <template>
-  <div class="wenben" data-name="currcomp_wenben" @click="onclick">
+  <div
+    class="wenben"
+    :class="{fixedHeight: isSingleBool}"
+    data-name="currcomp_wenben"
+    @click="onclick"
+  >
     <div
-      class="show-type"
-      :style="{fontSize:fontSize+'px', textAlign:alignment, fontWeight:bold, fontStyle:italic, textDecoration: underline, whiteSpace: isSingle}"
+      ref="sss"
+      :class="{scroll: isSingleBool}"
+      :style="{fontSize:fontSize+'px', textAlign:alignment, fontWeight:isBold, fontStyle:isItalic, textDecoration: isUnderline, whiteSpace: isSingle}"
     >{{ text }}</div>
   </div>
 </template>
@@ -23,12 +29,13 @@ export default {
   data() {
     return {
       isSingle: '',
+      isSingleBool: false,
       fontStyle: [],
       fontSize: 14,
       alignment: '',
-      bold: '',
-      italic: '',
-      underline: '',
+      isBold: '',
+      isItalic: '',
+      isUnderline: '',
       text: '示例文本'
     }
   },
@@ -36,7 +43,6 @@ export default {
     options: {
       handler: function() {
         this.text = this.options.text
-        this.fontStyle = this.options.fontStyle
         this.fontSize = this.options.fontSize
         if (this.options.alignment === '1') {
           this.alignment = 'left'
@@ -46,24 +52,37 @@ export default {
           this.alignment = 'right'
         }
 
-        if (this.options.single === '1') {
+        console.log(this.options.fontStyle)
+
+        if (this.options.isSingle === '2') {
           this.isSingle = 'nowrap'
+          this.isSingleBool = true
         } else {
           this.isSingle = ''
+          this.isSingleBool = false
         }
 
-        if (this.options.fontSize.indexOf(1)) {
-          this.bold = 'bold'
+        if (this.options.fontStyle.indexOf('1') !== -1) {
+          this.isBold = 'bold'
+        } else {
+          this.isBold = ''
         }
-        if (this.options.fontSize.indexOf(2)) {
-          this.italic = 'italic'
+        if (this.options.fontStyle.indexOf('2') !== -1) {
+          this.isItalic = 'italic'
+        } else {
+          this.isItalic = ''
         }
-        if (this.options.fontSize.indexOf(3)) {
-          this.underline = 'underline'
+        if (this.options.fontStyle.indexOf('3') !== -1) {
+          this.isUnderline = 'underline'
+        } else {
+          this.isUnderline = ''
         }
       },
       deep: true
     }
+  },
+  mounted() {
+    console.log(this.$refs.sss)
   },
   methods: {
     onclick() {
@@ -75,7 +94,28 @@ export default {
 
 <style lang="scss" scoped>
 .wenben {
-  padding: 10px;
+  position: relative;
   background-color: #fff;
+  overflow: hidden;
+  padding: 10px;
+  .scroll {
+    position: absolute;
+    top: 0;
+    animation: rotaryBlockFirst 5s linear infinite;
+  }
+}
+.fixedHeight {
+  position: absolute;
+  height: 40px;
+  line-height: 40px;
+}
+@keyframes rotaryBlockFirst {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -300px;
+  }
 }
 </style>

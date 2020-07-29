@@ -12,7 +12,7 @@
               :key="index"
               @click="addComponentsItem(item)"
             >
-              <img :src="item.icon" alt style="width:42px;height:42px;" />
+              <img :src="item.icon" alt style="width:42px;height:42px;">
               <span>{{ item.title }}</span>
             </li>
           </ul>
@@ -24,7 +24,7 @@
               :key="index"
               @click="addComponentsItem(item)"
             >
-              <img :src="item.icon" alt style="width:42px;height:42px;" />
+              <img :src="item.icon" alt style="width:42px;height:42px;">
               <span>{{ item.title }}</span>
             </li>
           </ul>
@@ -36,7 +36,7 @@
               :key="index"
               @click="addComponentsItem(item)"
             >
-              <img :src="item.icon" alt style="width:42px;height:42px;" />
+              <img :src="item.icon" alt style="width:42px;height:42px;">
               <span>{{ item.title }}</span>
             </li>
           </ul>
@@ -51,7 +51,7 @@
         <div class="template-header">
           <span />
           Free商城
-          <img src="@/assets/icons/template/bar-btn.png" alt />
+          <img src="@/assets/icons/template/bar-btn.png" alt>
         </div>
 
         <!-- 动态生成内容部分 -->
@@ -91,136 +91,143 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { option } from "runjs";
-import { setStyleOptions } from "@/api/setcomp";
+import { mapGetters } from 'vuex'
+import { option } from 'runjs'
+import { setStyleOptions } from '@/api/setcomp'
 export default {
-  name: "Templates",
+  name: 'Templates',
   components: {},
   data() {
     return {
       component_scroll_top: 0,
       show_cpt_tools: false,
-      activeNames: ["1", "2", "3"],
+      activeNames: ['1', '2', '3'],
       baseComponentsList: [
         {
           id: 1,
-          name: "basecomp_lunbotu",
-          title: "轮播图",
+          name: 'basecomp_lunbotu',
+          title: '轮播图',
           options: {},
-          icon: require("../../assets/icons/template/lunbotu.png")
+          icon: require('../../assets/icons/template/lunbotu.png')
         },
         {
           id: 2,
-          name: "basecomp_sousuolan",
-          title: "搜索栏",
+          name: 'basecomp_sousuolan',
+          title: '搜索栏',
           options: {},
-          icon: require("../../assets/icons/template/sousuolan.png")
+          icon: require('../../assets/icons/template/sousuolan.png')
         },
         {
           id: 3,
-          name: "basecomp_zuhelianjie",
-          title: "组合链接",
+          name: 'basecomp_zuhelianjie',
+          title: '组合链接',
           options: {},
-          icon: require("../../assets/icons/template/zuhelianjie.png")
+          icon: require('../../assets/icons/template/zuhelianjie.png')
         },
         {
           id: 4,
-          name: "basecomp_youhuiquan",
-          title: "优惠券",
+          name: 'basecomp_youhuiquan',
+          title: '优惠券',
           options: {},
-          icon: require("../../assets/icons/template/youhuiquan.png")
+          icon: require('../../assets/icons/template/youhuiquan.png')
         },
         {
           id: 5,
-          name: "basecomp_xianshimiaosha",
-          title: "限时秒杀",
-          icon: require("../../assets/icons/template/xianshimiaosha.png")
+          name: 'basecomp_xianshimiaosha',
+          title: '限时秒杀',
+          icon: require('../../assets/icons/template/xianshimiaosha.png')
         },
         {
           id: 6,
-          name: "basecomp_duorenpintuan",
-          title: "多人拼团",
-          icon: require("../../assets/icons/template/duorenpintuan.png")
+          name: 'basecomp_duorenpintuan',
+          title: '多人拼团',
+          icon: require('../../assets/icons/template/duorenpintuan.png')
         },
         {
           id: 7,
-          name: "basecomp_zhekouzhuanti",
-          title: "折扣专题",
-          icon: require("../../assets/icons/template/zhekouzhuanti.png")
+          name: 'basecomp_zhekouzhuanti',
+          title: '折扣专题',
+          icon: require('../../assets/icons/template/zhekouzhuanti.png')
         },
         {
           id: 8,
-          name: "basecomp_haoyoukanjia",
-          title: "好友砍价",
-          icon: require("../../assets/icons/template/haoyoukanjia.png")
+          name: 'basecomp_haoyoukanjia',
+          title: '好友砍价',
+          icon: require('../../assets/icons/template/haoyoukanjia.png')
         }
       ],
       latticeComponentsList: [
         {
           id: 9,
-          name: "currcomp_xianshimiaosha",
-          title: "限时秒杀",
+          name: 'currcomp_xianshimiaosha',
+          title: '限时秒杀',
           options: {},
-          icon: require("../../assets/icons/template/xianshimiaosha.png")
+          icon: require('../../assets/icons/template/xianshimiaosha.png')
         },
         {
           id: 10,
-          name: "currcomp_duorenpintuan",
-          title: "多人拼团",
+          name: 'currcomp_duorenpintuan',
+          title: '多人拼团',
           options: {},
-          icon: require("../../assets/icons/template/duorenpintuan.png")
+          icon: require('../../assets/icons/template/duorenpintuan.png')
         }
       ],
       currencyComponentsList: [
         {
           id: 11,
-          name: "currcomp_shangpinliebiao",
-          title: "商品列表",
+          name: 'currcomp_shangpinliebiao',
+          title: '商品列表',
           options: {},
-          icon: require("../../assets/icons/template/shangpinliebiao.png")
+          icon: require('../../assets/icons/template/shangpinliebiao.png')
         },
         {
           id: 12,
-          name: "currcomp_shangpinfenye",
-          title: "商品分页",
+          name: 'currcomp_shangpinfenye',
+          title: '商品分页',
           options: {},
-          icon: require("../../assets/icons/template/shangpinfenye.png")
+          icon: require('../../assets/icons/template/shangpinfenye.png')
         },
         {
           id: 13,
-          name: "currcomp_tuwendaohang",
-          title: "图文导航",
+          name: 'currcomp_tuwendaohang',
+          title: '图文导航',
           options: {},
-          icon: require("../../assets/icons/template/tuwendaohang.png")
+          icon: require('../../assets/icons/template/tuwendaohang.png')
         },
         {
           id: 14,
-          name: "currcomp_wenben",
-          title: "文本",
+          name: 'currcomp_wenben',
+          title: '文本',
           options: {},
-          icon: require("../../assets/icons/template/wenben.png")
+          icon: require('../../assets/icons/template/wenben.png')
         },
         {
           id: 15,
-          name: "currcomp_fuwenben",
-          title: "富文本",
+          name: 'currcomp_fuwenben',
+          title: '富文本',
           options: {},
-          icon: require("../../assets/icons/template/fuwenben.png")
+          icon: require('../../assets/icons/template/fuwenben.png')
         },
         {
           id: 16,
-          name: "currcomp_tupianguanggao",
-          title: "图片广告",
+          name: 'currcomp_tupianguanggao',
+          title: '图片广告',
           options: {},
-          icon: require("../../assets/icons/template/tupianguanggao.png")
+          icon: require('../../assets/icons/template/tupianguanggao.png')
+        },
+        {
+          id: 17,
+          name: 'currcomp_shangpinxiangqing',
+          title: '商品详情',
+          options: {},
+          icon: require('../../assets/icons/template/tupianguanggao.png')
         }
       ],
       befor_element: {},
       edit_style: function() {},
       apps_body: [],
       pitchOn: null // 选中组件的索引
-    };
+    }
   },
   created() {},
   mounted() {},
@@ -228,98 +235,98 @@ export default {
     // 添加组件
     addComponentsItem(item) {
       if (item.name) {
-        item.app = require(`../../xcx_components/${item.name}.vue`).default;
+        item.app = require(`../../xcx_components/${item.name}.vue`).default
         if (item.app) {
-          this.apps_body.push(item);
-          this.pitchOn = this.apps_body.length - 1;
+          this.apps_body.push(item)
+          this.pitchOn = this.apps_body.length - 1
         }
-        const edit_style = require(`./editstyle/${item.name}.vue`).default;
-        this.edit_style = edit_style;
+        const edit_style = require(`./editstyle/${item.name}.vue`).default
+        this.edit_style = edit_style
       }
     },
     scrollevent(e) {
-      this.component_scroll_top = e.target.scrollTop;
+      this.component_scroll_top = e.target.scrollTop
       Object.assign(this.$refs.cpt_tools.style, {
         top: 0,
         left: 0,
         width: 0,
         height: 0
-      });
-      this.show_cpt_tools = false;
+      })
+      this.show_cpt_tools = false
     },
 
     // 右侧工具栏
     editStyleOption(options) {
-      this.apps_body[this.pitchOn].options = options;
-      console.log(this.apps_body[this.pitchOn].options);
-      this.submitSetStyle();
+      this.apps_body[this.pitchOn].options = options
+      console.log(this.apps_body[this.pitchOn].options)
+      this.submitSetStyle()
     },
 
     // 点击组件
     onClick(e, i) {
-      this.pitchOn = i;
-      this.showTools(e, i);
+      this.pitchOn = i
+      this.showTools(e, i)
       // console.log(e, i);
       // 切换右侧编辑区
-      const self = this.$refs["templateItem" + this.pitchOn][0];
-      const fileName = self.$attrs["data-name"];
-      console.log(self, fileName);
-      const edit_style = require(`./editstyle/${fileName}.vue`).default;
-      this.edit_style = edit_style;
+      const self = this.$refs['templateItem' + this.pitchOn][0]
+      const fileName = self.$attrs['data-name']
+      console.log(self, fileName)
+      const edit_style = require(`./editstyle/${fileName}.vue`).default
+      this.edit_style = edit_style
     },
 
     // 鼠标移动到生成的组件上显示浮动工具栏
     showTools(e, i) {
-      this.show_cpt_tools = true;
-      const offsetTop = this.$refs["templateItem" + i][0].$el.offsetTop;
-      const offsetWidth = this.$refs["templateItem" + i][0].$el.offsetWidth;
-      const offsetHeight = this.$refs["templateItem" + i][0].$el.offsetHeight;
+      this.show_cpt_tools = true
+      const offsetTop = this.$refs['templateItem' + i][0].$el.offsetTop
+      const offsetWidth = this.$refs['templateItem' + i][0].$el.offsetWidth
+      const offsetHeight = this.$refs['templateItem' + i][0].$el.offsetHeight
       Object.assign(this.$refs.cpt_tools.style, {
-        top: Number(offsetTop - this.component_scroll_top) + "px",
-        left: 0 + "px",
-        width: "100%",
-        height: offsetHeight + "px"
-      });
-      this.apps_body[i].width = offsetWidth;
-      this.apps_body[i].height = offsetHeight;
+        top: Number(offsetTop - this.component_scroll_top) + 'px',
+        right: 0 + 'px',
+        width: '0px',
+        height: offsetHeight + 'px'
+      })
+      this.apps_body[i].width = offsetWidth
+      this.apps_body[i].height = offsetHeight
     },
 
     // 删除组件
     delComponent() {
-      const self = document.getElementById("templateItem" + this.pitchOn);
-      const parent = self.parentElement;
-      parent.removeChild(self);
-      this.show_cpt_tools = false;
+      const self = document.getElementById('templateItem' + this.pitchOn)
+      const parent = self.parentElement
+      parent.removeChild(self)
+      this.show_cpt_tools = false
     },
     submitSetStyle() {
-      let resulit = this.apps_body;
-      let select_arr = [];
+      const resulit = this.apps_body
+      const select_arr = []
       resulit.map(object => {
-        let obj = {};
+        const obj = {}
         for (const key in object) {
           if (object.hasOwnProperty(key)) {
-            const element = object[key];
-            if (key != "app") {
-              obj[key] = element;
+            const element = object[key]
+            if (key != 'app') {
+              obj[key] = element
             }
           }
         }
-        select_arr.push(obj);
-      });
-      console.log(select_arr);
+        select_arr.push(obj)
+      })
+      console.log(select_arr)
       setStyleOptions({ setdata: JSON.stringify(select_arr) })
         .then(response => {
-          console.log(response);
+          console.log(response)
         })
         .catch(error => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     }
   },
   computed: {
-    ...mapGetters(["name"])
+    ...mapGetters(['name'])
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
