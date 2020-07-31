@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-07-09 14:50:59
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-31 17:12:13
+ * @LastEditTime: 2020-07-31 11:48:08
  * @Description: x
 -->
 <template>
@@ -20,7 +20,7 @@
 <script>
 export default {
   props: {
-    pop_options: {
+    options: {
       type: Object,
       default: function () {
         return {
@@ -34,16 +34,13 @@ export default {
   },
   data() {
     return {
-      options: {
+      set_options: {
         curr_1: 0,
         comp_color: "#ffffff",
         bg_color: "#ffffff",
         placeholder: "",
       },
     };
-  },
-  created() {
-    this.options = this.pop_options;
   },
   methods: {
     showStyleClass(key) {

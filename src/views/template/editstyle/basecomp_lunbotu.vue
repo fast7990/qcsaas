@@ -2,7 +2,7 @@
  * @Author: [hsp]
  * @Date: 2020-07-08 18:33:51
  * @LastEditors: [hsp]
- * @LastEditTime: 2020-07-10 17:26:31
+ * @LastEditTime: 2020-07-30 11:50:47
  * @Description: 
 --> 
 <template>
@@ -11,7 +11,7 @@
     <div class="img-list">
       <img
         class="img"
-        :class="curr_1==index?'curr_img':''"
+        :class="options_seting.curr_1==index?'curr_img':''"
         :src="item.icon"
         alt
         @click="chengeCurr(index,1)"
@@ -23,7 +23,7 @@
     <div class="img-list">
       <img
         class="img"
-        :class="curr_2==index?'curr_img':''"
+        :class="options_seting.curr_2==index?'curr_img':''"
         :src="item.icon"
         alt
         @click="chengeCurr(index,2)"
@@ -132,17 +132,17 @@ export default {
           children: [
             {
               value: "quanbudingdan",
-              label: "全部订单"
+              label: "全部订单",
             },
             {
               value: "youhuiquanlingqu",
-              label: "优惠券"
+              label: "优惠券",
             },
             {
               value: "fenleiyemian",
-              label: "分类页面"
-            }
-          ]
+              label: "分类页面",
+            },
+          ],
         },
         {
           value: "yingxiaohuodong",
@@ -150,21 +150,21 @@ export default {
           children: [
             {
               value: "xianshimiaosha",
-              label: "限时秒杀"
+              label: "限时秒杀",
             },
             {
               value: "duorenpintuan",
-              label: "多人拼团"
+              label: "多人拼团",
             },
             {
               value: "haoyoukanjia",
-              label: "好友砍价"
+              label: "好友砍价",
             },
             {
               value: "manjianmanzhe",
-              label: "满减满折"
-            }
-          ]
+              label: "满减满折",
+            },
+          ],
         },
         {
           value: "shangpinbiaoqian",
@@ -172,26 +172,26 @@ export default {
           children: [
             {
               value: "xinpin",
-              label: "新品"
+              label: "新品",
             },
             {
               value: "cuxiaoshangpin",
-              label: "促销商品"
-            }
-          ]
+              label: "促销商品",
+            },
+          ],
         },
         {
           value: "shangpinxiangqing",
-          label: "商品详情"
+          label: "商品详情",
         },
         {
           value: "shangpinfenlei",
-          label: "商品分类"
+          label: "商品分类",
         },
         {
           value: "zhekouzhuanchang",
-          label: "折扣专场"
-        }
+          label: "折扣专场",
+        },
       ],
       curr_1: 0,
       curr_2: 0,
@@ -204,26 +204,30 @@ export default {
       disabled: false,
       img_1: [
         {
-          icon: require("../../../assets/swiper_style_img/a.png")
+          icon: require("../../../assets/swiper_style_img/a.png"),
         },
         {
-          icon: require("../../../assets/swiper_style_img/b.png")
-        }
+          icon: require("../../../assets/swiper_style_img/b.png"),
+        },
       ],
       img_2: [
         {
-          icon: require("../../../assets/swiper_style_img/1.png")
+          icon: require("../../../assets/swiper_style_img/1.png"),
         },
         {
-          icon: require("../../../assets/swiper_style_img/2.png")
+          icon: require("../../../assets/swiper_style_img/2.png"),
         },
         {
-          icon: require("../../../assets/swiper_style_img/3.png")
+          icon: require("../../../assets/swiper_style_img/3.png"),
         },
         {
-          icon: require("../../../assets/swiper_style_img/4.png")
-        }
-      ]
+          icon: require("../../../assets/swiper_style_img/4.png"),
+        },
+      ],
+      options_seting: {
+        curr_1: 0,
+        curr_2: 0,
+      },
     };
   },
   methods: {
@@ -232,7 +236,6 @@ export default {
     },
     changeSelectLink(e) {
       // 选择链接改变
-
       let label = this.$refs.select_link_panel.getCheckedNodes();
       if (typeof label[0] === "object") {
         this.link_val = label[0].pathLabels.join("-");
@@ -244,7 +247,7 @@ export default {
       if (e < 10 || e > 2000) {
         this.$message({
           message: "高度最小为10最大2000",
-          type: "warning"
+          type: "warning",
         });
         this.height = 10;
       }
@@ -256,7 +259,7 @@ export default {
     confirm() {
       // 确定预览
       this.$emit("editStyleOption", {
-        duration: this.slider_time * 100
+        duration: this.slider_time * 100,
       });
       // this.$refs.show_dialog_product_select.dialogBox = true;
       // this.submitUpload();
@@ -283,12 +286,17 @@ export default {
     },
     chengeCurr(index, type) {
       if (type == 1) {
-        this.curr_1 = index;
+        // 海报样式
+        this.options_seting.curr_1 = index;
       } else if (type == 2) {
-        this.curr_2 = index;
+        // 页码样式
+        this.options_seting.curr_2 = index;
       }
-    }
-  }
+    },
+    setOptions() {
+      this.$emit("editStyleOption", this.options_seting);
+    },
+  },
 };
 </script>
 <style lang="scss">

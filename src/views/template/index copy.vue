@@ -10,7 +10,7 @@
             <li
               v-for="(item, index) in baseComponentsList"
               :key="index"
-              @click="addComponentsItem(item,baseComponentsList)"
+              @click="addComponentsItem(item)"
             >
               <img :src="item.icon" alt style="width:42px;height:42px;" />
               <span>{{ item.title }}</span>
@@ -21,9 +21,8 @@
           <ul class="components-item">
             <li
               v-for="(item, index) in latticeComponentsList"
-              v-show="item.show"
               :key="index"
-              @click="addComponentsItem(item,latticeComponentsList)"
+              @click="addComponentsItem(item)"
             >
               <img :src="item.icon" alt style="width:42px;height:42px;" />
               <span>{{ item.title }}</span>
@@ -35,7 +34,7 @@
             <li
               v-for="(item, index) in currencyComponentsList"
               :key="index"
-              @click="addComponentsItem(item,currencyComponentsList)"
+              @click="addComponentsItem(item)"
             >
               <img :src="item.icon" alt style="width:42px;height:42px;" />
               <span>{{ item.title }}</span>
@@ -66,7 +65,7 @@
               :ref="'templateItem'+index"
               :data-name="item.name"
               :class="{'active': index === pitchOn}"
-              :pop_options="item.options"
+              :options="item.options"
               @onclick="onClick($event,index)"
             />
           </div>
@@ -116,8 +115,6 @@ export default {
           title: "轮播图",
           options: {},
           icon: require("../../assets/icons/template/lunbotu.png"),
-          components: require(`../../xcx_components/basecomp_lunbotu.vue`)
-            .default,
         },
         {
           id: 2,
@@ -125,8 +122,6 @@ export default {
           title: "搜索栏",
           options: {},
           icon: require("../../assets/icons/template/sousuolan.png"),
-          components: require(`../../xcx_components/basecomp_sousuolan.vue`)
-            .default,
         },
         {
           id: 3,
@@ -134,8 +129,6 @@ export default {
           title: "组合链接",
           options: {},
           icon: require("../../assets/icons/template/zuhelianjie.png"),
-          components: require(`../../xcx_components/basecomp_zuhelianjie.vue`)
-            .default,
         },
         {
           id: 4,
@@ -143,59 +136,47 @@ export default {
           title: "优惠券",
           options: {},
           icon: require("../../assets/icons/template/youhuiquan.png"),
-          components: require(`../../xcx_components/basecomp_youhuiquan.vue`)
-            .default,
         },
         {
           id: 5,
           name: "basecomp_xianshimiaosha",
           title: "限时秒杀",
           icon: require("../../assets/icons/template/xianshimiaosha.png"),
-          components: require(`../../xcx_components/basecomp_xianshimiaosha.vue`)
-            .default,
         },
         {
           id: 6,
           name: "basecomp_duorenpintuan",
           title: "多人拼团",
           icon: require("../../assets/icons/template/duorenpintuan.png"),
-          components: require(`../../xcx_components/basecomp_duorenpintuan.vue`)
-            .default,
         },
         {
           id: 7,
           name: "basecomp_zhekouzhuanti",
           title: "折扣专题",
           icon: require("../../assets/icons/template/zhekouzhuanti.png"),
-          components: require(`../../xcx_components/basecomp_zhekouzhuanti.vue`)
-            .default,
         },
         {
           id: 8,
           name: "basecomp_haoyoukanjia",
           title: "好友砍价",
           icon: require("../../assets/icons/template/haoyoukanjia.png"),
-          components: require(`../../xcx_components/basecomp_haoyoukanjia.vue`)
-            .default,
         },
       ],
       latticeComponentsList: [
-        {
-          id: 9,
-          name: "currcomp_xianshimiaosha",
-          title: "限时秒杀",
-          options: {},
-          icon: require("../../assets/icons/template/xianshimiaosha.png"),
-          show: false,
-        },
-        {
-          id: 10,
-          name: "currcomp_duorenpintuan",
-          title: "多人拼团",
-          options: {},
-          icon: require("../../assets/icons/template/duorenpintuan.png"),
-          show: false,
-        },
+        // {
+        //   id: 9,
+        //   name: 'currcomp_xianshimiaosha',
+        //   title: '限时秒杀',
+        //   options: {},
+        //   icon: require('../../assets/icons/template/xianshimiaosha.png')
+        // },
+        // {
+        //   id: 10,
+        //   name: 'currcomp_duorenpintuan',
+        //   title: '多人拼团',
+        //   options: {},
+        //   icon: require('../../assets/icons/template/duorenpintuan.png')
+        // }
       ],
       currencyComponentsList: [
         {
@@ -204,8 +185,6 @@ export default {
           title: "商品列表",
           options: {},
           icon: require("../../assets/icons/template/shangpinliebiao.png"),
-          components: require(`../../xcx_components/currcomp_shangpinliebiao.vue`)
-            .default,
         },
         {
           id: 12,
@@ -213,8 +192,6 @@ export default {
           title: "商品分页",
           options: {},
           icon: require("../../assets/icons/template/shangpinfenye.png"),
-          components: require(`../../xcx_components/currcomp_shangpinfenye.vue`)
-            .default,
         },
         {
           id: 13,
@@ -222,8 +199,6 @@ export default {
           title: "图文导航",
           options: {},
           icon: require("../../assets/icons/template/tuwendaohang.png"),
-          components: require(`../../xcx_components/currcomp_tuwendaohang.vue`)
-            .default,
         },
         {
           id: 14,
@@ -231,8 +206,6 @@ export default {
           title: "文本",
           options: {},
           icon: require("../../assets/icons/template/wenben.png"),
-          components: require(`../../xcx_components/currcomp_wenben.vue`)
-            .default,
         },
         {
           id: 15,
@@ -240,8 +213,6 @@ export default {
           title: "富文本",
           options: {},
           icon: require("../../assets/icons/template/fuwenben.png"),
-          components: require(`../../xcx_components/currcomp_fuwenben.vue`)
-            .default,
         },
         {
           id: 16,
@@ -249,8 +220,6 @@ export default {
           title: "图片广告",
           options: {},
           icon: require("../../assets/icons/template/tupianguanggao.png"),
-          components: require(`../../xcx_components/currcomp_tupianguanggao.vue`)
-            .default,
         },
         {
           id: 17,
@@ -258,8 +227,6 @@ export default {
           title: "商品详情",
           options: {},
           icon: require("../../assets/icons/template/tupianguanggao.png"),
-          components: require(`../../xcx_components/currcomp_shangpinxiangqing.vue`)
-            .default,
         },
       ],
       befor_element: {},
@@ -282,29 +249,24 @@ export default {
   mounted() {},
   methods: {
     // 添加组件
-    addComponentsItem(item, maplist) {
-
-        if (item.name) {
-          // 引入
-          maplist.map((it) => {
-            if (it.name == item.name) {
-              item.app = it.components;
-              this.apps_body.push(item);
-              this.pitchOn = this.apps_body.length - 1;
-              return;
-            }
-          });
-          const edit_style = require(`./editstyle/${item.name}.vue`).default;
-          this.edit_style.push(edit_style);
-          this.xcx_ele_generator.currentFormItemIndex = this.pitchOn;
-          this.xcx_ele_generator.projectList.apps_body = this.apps_body;
-          this.xcx_ele_generator.projectList.edit_style = this.edit_style;
-          localStorage.setItem(
-            "xcx_ele_generator",
-            JSON.stringify(this.xcx_ele_generator)
-          );
+    addComponentsItem(item) {
+      if (item.name) {
+        // 引入
+        item.app = require(`../../xcx_components/${item.name}.vue`).default;
+        if (item.app) {
+          this.apps_body.push(item);
+          this.pitchOn = this.apps_body.length - 1;
         }
-      
+        const edit_style = require(`./editstyle/${item.name}.vue`).default;
+        this.edit_style.push(edit_style);
+        this.xcx_ele_generator.currentFormItemIndex = this.pitchOn;
+        this.xcx_ele_generator.projectList.apps_body = this.apps_body;
+        this.xcx_ele_generator.projectList.edit_style = this.edit_style;
+        localStorage.setItem(
+          "xcx_ele_generator",
+          JSON.stringify(this.xcx_ele_generator)
+        );
+      }
     },
     scrollevent(e) {
       this.component_scroll_top = e.target.scrollTop;
@@ -318,15 +280,25 @@ export default {
 
     // 右侧工具栏
     editStyleOption(options) {
-      // 更改组件属性
-      this.curr_self.options = options;
-      this.changeOptions(options);
-    },
-    changeOptions(options) {
-      // 改变属性状态
+      // let apps_body = [...this.apps_body];
+      // apps_body[this.pitchOn].options = options;
+      // this.apps_body = apps_body;
+      console.log(
+        options,
+        this.xcx_ele_generator.projectList.apps_body[this.pitchOn].options
+      );
       this.xcx_ele_generator.projectList.apps_body[
         this.pitchOn
       ].options = options;
+      localStorage.setItem(
+        "xcx_ele_generator",
+        JSON.stringify(this.xcx_ele_generator)
+      );
+      this.curr_self.options = options;
+      this.changeOptions();
+    },
+    changeOptions() {
+      // 改变属性状态
       console.log(1);
     },
     // 点击组件

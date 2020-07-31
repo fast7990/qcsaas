@@ -2,15 +2,15 @@
  * @Author weipeng
  * @Github https://github.com/weiipeng
  * @Date 2020-07-13 14:07:34
- * @LastEditors weipeng
- * @LastEditTime 2020-07-14 11:21:51
+ * @LastEditors: [hsp]
+ * @LastEditTime: 2020-07-30 11:30:59
  * @Description 组合链接组件配置设置
 -->
 
 <template>
   <div class="zuhelianjie">
     <div class="item">
-      <b>导航样式</b>
+      <b>组合链接</b>
     </div>
     <div class="item">
       <b>导航样式</b>
