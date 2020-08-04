@@ -8,7 +8,7 @@ const state = {
   showRightSidebar: 'hideright',
   device: 'desktop',
   isOpenSideBar: false,
-  baseUrlApi: 'http://localhost:3000'
+  baseUrlApi: 'http://internal.test01.qcw100.com/rest/2.0'
 }
 
 const mutations = {
